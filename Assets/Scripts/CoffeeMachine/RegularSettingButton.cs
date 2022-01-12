@@ -5,9 +5,20 @@ namespace CofffeCoffee.Buttons
 {
     public class RegularSettingButton : MonoBehaviour
     {
+
+        public ChangeLightColor BlondeSettingLight;
+        public ChangeLightColor RegularSettingLight;
+        public ChangeLightColor DecafSettingLight;
+        int green = 1, red = 0;
+        private void Start()
+        {
+            RegularSettingLight.ChangeMaterial(green);
+        }
         private void OnMouseDown()
         {
-            Debug.Log("RegularButton");
+            BlondeSettingLight.ChangeMaterial(red);
+            RegularSettingLight.ChangeMaterial(green);
+            DecafSettingLight.ChangeMaterial(red);
         }
     }
 }

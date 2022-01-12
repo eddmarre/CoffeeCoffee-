@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.Sprites;
 namespace CoffeeCoffee.Functionality
 {
-
-
     public class DragAndDrop : MonoBehaviour
     {
         Vector3 mOffset;
@@ -16,6 +14,7 @@ namespace CoffeeCoffee.Functionality
         const float disableClickDelayTime = .5f;
         WaitForSeconds delayTimer;
         new Collider2D collider2D;
+        Triggerable triggerable;
         private void Awake()
         {
             main = Camera.main;
@@ -37,12 +36,22 @@ namespace CoffeeCoffee.Functionality
         }
         private void OnTriggerEnter2D(Collider2D other)
         {
-            LockPosition(other);
+            if (!other.GetComponent<Triggerable>().GetIsOccupied())
+            {
+                LockPosition(other);
+            }
+            else
+            {
+                Debug.Log("is occupied", this);
+            }
         }
         private void OnTriggerStay2D(Collider2D other)
         {
-            LockPosition(other);
-            StartCoroutine(DisableClickTimer());
+            if (!other.GetComponent<Triggerable>().GetIsOccupied())
+            {
+                LockPosition(other);
+                StartCoroutine(DisableClickTimer());
+            }
         }
         private void OnTriggerExit2D(Collider2D other)
         {

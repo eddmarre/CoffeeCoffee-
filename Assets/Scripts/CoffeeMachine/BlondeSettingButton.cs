@@ -5,9 +5,17 @@ namespace CoffeeCoffee.Buttons
 {
     public class BlondeSettingButton : MonoBehaviour
     {
+
+        public ChangeLightColor BlondeSettingLight;
+        public ChangeLightColor RegularSettingLight;
+        public ChangeLightColor DecafSettingLight;
+        int green = 1,red =0;
+
         private void OnMouseDown()
         {
-            Debug.Log("esspressoo Change", this);
+            BlondeSettingLight.ChangeMaterial(green);
+            RegularSettingLight.ChangeMaterial(red);
+            DecafSettingLight.ChangeMaterial(red);
         }
     }
 }
