@@ -27,7 +27,6 @@ namespace CoffeeCoffee.Functionality
             GenerateOffSet();
             changeSpriteAlpha(semiVisible);
         }
-
         private void OnMouseUp()
         {
             changeSpriteAlpha(fullyVisible);
@@ -36,38 +35,12 @@ namespace CoffeeCoffee.Functionality
         {
             MoveObject();
         }
-        private void GenerateOffSet()
-        {
-            mZCoord = main.WorldToScreenPoint(transform.position).z;
-            mOffset = transform.position - GetMouseWorldPos();
-        }
-
-        private Vector3 MoveObject()
-        {
-            transform.rotation = Quaternion.identity;
-            return transform.position = GetMouseWorldPos() + mOffset;
-        }
-
-        Vector3 GetMouseWorldPos()
-        {
-            Vector3 mousePoint = Input.mousePosition;
-            mousePoint.z = mZCoord;
-            return main.ScreenToWorldPoint(mousePoint);
-        }
-        void changeSpriteAlpha(float newAlpha)
-        {
-            Color tmp = GetComponent<SpriteRenderer>().color;
-            tmp.a = newAlpha;
-            GetComponent<SpriteRenderer>().color = tmp;
-        }
-
         private void OnTriggerEnter2D(Collider2D other)
         {
             LockPosition(other);
         }
         private void OnTriggerStay2D(Collider2D other)
         {
-            //lock position of object
             LockPosition(other);
             StartCoroutine(DisableClickTimer());
         }
@@ -75,6 +48,7 @@ namespace CoffeeCoffee.Functionality
         {
             StopAllCoroutines();
         }
+
         private void LockPosition(Collider2D other)
         {
             transform.position = other.transform.position;
@@ -92,6 +66,27 @@ namespace CoffeeCoffee.Functionality
             yield return delayTimer;
             DisableClick();
         }
-
+        private void GenerateOffSet()
+        {
+            mZCoord = main.WorldToScreenPoint(transform.position).z;
+            mOffset = transform.position - GetMouseWorldPos();
+        }
+        private Vector3 MoveObject()
+        {
+            transform.rotation = Quaternion.identity;
+            return transform.position = GetMouseWorldPos() + mOffset;
+        }
+        Vector3 GetMouseWorldPos()
+        {
+            Vector3 mousePoint = Input.mousePosition;
+            mousePoint.z = mZCoord;
+            return main.ScreenToWorldPoint(mousePoint);
+        }
+        void changeSpriteAlpha(float newAlpha)
+        {
+            Color tmp = GetComponent<SpriteRenderer>().color;
+            tmp.a = newAlpha;
+            GetComponent<SpriteRenderer>().color = tmp;
+        }
     }
 }
