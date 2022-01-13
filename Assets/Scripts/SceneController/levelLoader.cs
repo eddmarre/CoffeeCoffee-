@@ -8,7 +8,6 @@ public class levelLoader : MonoBehaviour
     [SerializeField] int timeToWait = 4;
     int currentSceneIndex;
 
-    // Start is called before the first frame update
     void Start()
     {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -17,13 +16,6 @@ public class levelLoader : MonoBehaviour
             StartCoroutine(WaitForTime());
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     IEnumerator WaitForTime()
     {
         yield return new WaitForSeconds(timeToWait);

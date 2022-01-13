@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using CoffeeCoffee.Functionality;
+using UnityEngine;
 [RequireComponent(typeof(Triggerable))]
-public class EsspressoGlassTrigger : MonoBehaviour
+public class MilkPitcherTrigger : MonoBehaviour
 {
-    bool isEsspressoGlass;
+    bool isMilkPitcher;
     DragAndDrop returnableDnd;
-    EsspressoGlass returnableESPGlass;
+    MilkPitcher returnableMLKPitcher;
     Triggerable triggerable;
     WaitForSeconds occupiedTimer;
     const float TIMER = 1f;
@@ -27,10 +27,10 @@ public class EsspressoGlassTrigger : MonoBehaviour
             SetDragAndDrop(other.GetComponent<DragAndDrop>());
             StartCoroutine(SetOccupiedTimer());
         }
-        if (other.gameObject.GetComponent<EsspressoGlass>())
+        if (other.gameObject.GetComponent<MilkPitcher>())
         {
-            SetEsspressoGlass(other.GetComponent<EsspressoGlass>());
-            isEsspressoGlass = true;
+            SetMilkPitcher(other.GetComponent<MilkPitcher>());
+            isMilkPitcher = true;
         }
     }
     IEnumerator SetOccupiedTimer()
@@ -42,14 +42,14 @@ public class EsspressoGlassTrigger : MonoBehaviour
     {
         triggerable.ResetIsOccupied();
     }
-    public bool IsEsspressoGlass()
+    public bool IsMilkPitcher()
     {
-        return isEsspressoGlass;
+        return isMilkPitcher;
     }
 
-    public void ResetEsspressoGlassTrigger()
+    public void ResetMilkPitcherTrigger()
     {
-        isEsspressoGlass = false;
+        isMilkPitcher = false;
     }
 
     public DragAndDrop GetDragAndDrop()
@@ -63,13 +63,13 @@ public class EsspressoGlassTrigger : MonoBehaviour
         returnableDnd = dnd;
     }
 
-    public EsspressoGlass GetEsspressoGlass()
+    public MilkPitcher GetMilkPitcher()
     {
-        if (null == returnableESPGlass) { Debug.Log("NullCollider", this); }
-        return returnableESPGlass;
+        if (null == returnableMLKPitcher) { Debug.Log("NullCollider", this); }
+        return returnableMLKPitcher;
     }
-    void SetEsspressoGlass(EsspressoGlass espG)
+    void SetMilkPitcher(MilkPitcher mlkG)
     {
-        returnableESPGlass = espG;
+        returnableMLKPitcher = mlkG;
     }
 }

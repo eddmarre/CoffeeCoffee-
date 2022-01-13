@@ -12,8 +12,8 @@ namespace CoffeeCoffee.Buttons
         EsspressoGlass esspressoGlass;
         WaitForSeconds glassRestartWaitTimer;
         WaitForSeconds wrongItemWaitTimer;
-        public const float GLASS_RESTART_SECONDS_TO_WAIT = 2f;
-        public const float WRONG_ITEM_SECONDS_TO_WAIT = .1f;
+        const float GLASS_RESTART_SECONDS_TO_WAIT = 2f;
+        const float WRONG_ITEM_SECONDS_TO_WAIT = .1f;
         const float RIGHT = 5f;
         const float LEFT = -5f;
 
@@ -60,7 +60,6 @@ namespace CoffeeCoffee.Buttons
             StartCoroutine(WrongItemAnimation(objectTransform));
             ResetOriginalTransform(objectTransform, originalPosition);
             AllowForReplacableItems();
-            esspressoGlassTrigger.NoLongerOccupied();
         }
 
         private static void ResetOriginalTransform(Transform objectTransform, Vector2 originalPosition)
@@ -73,17 +72,13 @@ namespace CoffeeCoffee.Buttons
             esspressoGlassTrigger.gameObject.SetActive(false);
             esspressoGlassTrigger.GetDragAndDrop().EnableClick();
             StartCoroutine(RestartGlassTriggerTimer());
-
+            esspressoGlassTrigger.NoLongerOccupied();
         }
 
         private void PourEsspresso()
         {
             esspressoGlass.PourEsspressoIntoShotGlass();
-            esspressoGlassTrigger.gameObject.SetActive(false);
-            esspressoGlassTrigger.GetDragAndDrop().EnableClick();
-            StartCoroutine(RestartGlassTriggerTimer());
             esspressoGlassTrigger.ResetEsspressoGlassTrigger();
-            esspressoGlassTrigger.NoLongerOccupied();
         }
 
         IEnumerator RestartGlassTriggerTimer()
