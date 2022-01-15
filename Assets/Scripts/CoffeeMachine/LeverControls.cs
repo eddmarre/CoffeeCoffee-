@@ -43,7 +43,7 @@ namespace CoffeeCoffee.Buttons
                 if (milkPitcherTrigger.IsMilkPitcher())
                 {
                     milkPitcher = milkPitcherTrigger.GetMilkPitcher();
-                    if (milkPitcher.IsNotStreamed())
+                    if (milkPitcher.IsNotStreamed()&&milkPitcher.IsFilled())
                     {
                         if (isPulled)
                         {
@@ -81,7 +81,6 @@ namespace CoffeeCoffee.Buttons
         IEnumerator ResetIsNotSpammingCheck()
         {
             yield return new WaitForSeconds(1f);
-            Debug.Log("isNotSpammingANymore", this);
             isNotSpamming = true;
         }
 
