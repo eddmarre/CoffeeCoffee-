@@ -16,6 +16,9 @@ public class MilkCarton : MonoBehaviour
     const float LOCATION_TIMER = .2f;
     const float ANIMATION_TIMER = 1f;
 
+    public enum MilkCartonType { none, nonFat, twoPercent, wholeMilk };
+    public MilkCartonType milkCartonType;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -26,7 +29,7 @@ public class MilkCarton : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         StopAllCoroutines();
-        if (other.gameObject.GetComponent<MilkPitcher>())
+        if (other.gameObject.GetComponent<MilkPitcher>() && !other.gameObject.GetComponent<MilkPitcher>().IsFilled())
         {
             lockPosition(other);
         }
@@ -34,13 +37,15 @@ public class MilkCarton : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.GetComponent<MilkPitcher>())
+        if (other.gameObject.GetComponent<MilkPitcher>() && !other.gameObject.GetComponent<MilkPitcher>().IsFilled())
         {
             lockPosition(other);
             transform.SetParent(other.gameObject.transform);
             StartCoroutine(WaitForLocationSwap(other));
         }
     }
+
+    //public MilkCartonType milkCartonType { get; set; }
     private void lockPosition(Collision2D other)
     {
         transform.position = other.gameObject.transform.position + new Vector3(xPosition, yPosition, 0);

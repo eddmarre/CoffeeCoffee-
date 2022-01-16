@@ -3,6 +3,7 @@ using CoffeeCoffee;
 using CoffeeCoffee.Functionality;
 using System.Collections;
 using System.Collections.Generic;
+using CofffeCoffee.Buttons;
 
 namespace CoffeeCoffee.Buttons
 {
@@ -17,11 +18,20 @@ namespace CoffeeCoffee.Buttons
         const float RIGHT = 5f;
         const float LEFT = -5f;
 
+        BlondeSettingButton blondeButton;
+        RegularSettingButton regularButton;
+        DecafSettingButton decafButton;
+        EspressoShotSetting shotSetting;
+
         private void Awake()
         {
             esspressoGlassTrigger = FindObjectOfType<EsspressoGlassTrigger>();
             glassRestartWaitTimer = new WaitForSeconds(GLASS_RESTART_SECONDS_TO_WAIT);
             wrongItemWaitTimer = new WaitForSeconds(WRONG_ITEM_SECONDS_TO_WAIT);
+            blondeButton = FindObjectOfType<BlondeSettingButton>();
+            regularButton = FindObjectOfType<RegularSettingButton>();
+            decafButton = FindObjectOfType<DecafSettingButton>();
+            shotSetting = FindObjectOfType<EspressoShotSetting>();
         }
         private void OnMouseDown()
         {
@@ -31,6 +41,9 @@ namespace CoffeeCoffee.Buttons
                 esspressoGlass = esspressoGlassTrigger.GetEsspressoGlass();
                 if (esspressoGlass.IsEmpty())
                 {
+                    ChangeEsspressoSize();
+                    ChangeEsspressoType();
+                    Debug.Log(esspressoGlass.esspresso + " and is size " + esspressoGlass.esspressoSize, this);
                     PourEsspresso();
                     AllowForReplacableItems();
                 }
@@ -50,6 +63,34 @@ namespace CoffeeCoffee.Buttons
                     Debug.Log("No Objects in Trigger", this);
                 }
 
+            }
+        }
+
+        void ChangeEsspressoSize()
+        {
+            if (shotSetting.GetIsDouble())
+            {
+                esspressoGlass.esspressoSize = EsspressoGlass.EsspressoSize.edouble;
+            }
+            else
+            {
+                esspressoGlass.esspressoSize = EsspressoGlass.EsspressoSize.esingle;
+            }
+        }
+
+        private void ChangeEsspressoType()
+        {
+            if (decafButton.GetIsActive())
+            {
+                esspressoGlass.esspresso = EsspressoGlass.Esspresso.decaf;
+            }
+            else if (blondeButton.GetIsActive())
+            {
+                esspressoGlass.esspresso = EsspressoGlass.Esspresso.blonde;
+            }
+            else if (regularButton.GetIsActive())
+            {
+                esspressoGlass.esspresso = EsspressoGlass.Esspresso.regular;
             }
         }
 
