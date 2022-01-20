@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using CoffeeCoffee.Triggers;
 using UnityEngine;
 using UnityEngine.Sprites;
 namespace CoffeeCoffee.Functionality
 {
     public class DragAndDrop : MonoBehaviour
     {
-        Vector3 mOffset;
-        float mZCoord;
-        Camera main;
         const float semiVisible = .5f;
         const float fullyVisible = 1f;
         const float disableClickDelayTime = .5f;
+        Vector3 mOffset;
+        Camera main;
         WaitForSeconds delayTimer;
         new Collider2D collider2D;
         Triggerable triggerable;
+        float mZCoord;
         private void Awake()
         {
             main = Camera.main;

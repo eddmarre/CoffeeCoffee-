@@ -1,33 +1,56 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoffeeCoffee.Functionality;
 using UnityEngine;
-[RequireComponent(typeof(DragAndDrop))]
-public class EsspressoGlass : MonoBehaviour
+namespace CoffeeCoffee.Item
 {
-    public enum Esspresso { none, blonde, regular, decaf };
-    public enum EsspressoSize { none, esingle, edouble };
-    Animator animator;
-    const string FILL_GLASS_TRIGGER = "FillGlass";
-    bool isEmpty = true;
-    private void Awake()
+    [RequireComponent(typeof(DragAndDrop))]
+    public class EsspressoGlass : MonoBehaviour
     {
-        animator = GetComponent<Animator>();
-        esspresso = Esspresso.none;
-        esspressoSize = EsspressoSize.none;
-    }
-    public void PourEsspressoIntoShotGlass()
-    {
-        animator.SetTrigger(FILL_GLASS_TRIGGER);
-        isEmpty = false;
-    }
+        public enum Esspresso { none, blonde, regular, decaf };
+        public enum EsspressoSize { none, esingle, edouble };
+        public Esspresso esspresso { get; set; }
+        public EsspressoSize esspressoSize { get; set; }
+        public Sprite[] sprites;
+        const string FILL_GLASS_TRIGGER = "FillGlass";
 
-    public bool IsEmpty()
-    {
-        return isEmpty;
+        SpriteRenderer spriteRenderer;
+        Animator animator;
+
+        bool isEmpty = true;
+        int empty = 0, full = 1;
+
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+            esspresso = Esspresso.none;
+            esspressoSize = EsspressoSize.none;
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        public void PourEsspressoIntoShotGlass()
+        {
+            animator.SetTrigger(FILL_GLASS_TRIGGER);
+            isEmpty = false;
+            setSprite();
+        }
+
+        public bool IsEmpty()
+        {
+            return isEmpty;
+        }
+
+        public void setSprite()
+        {
+            if (isEmpty)
+            {
+                spriteRenderer.sprite = sprites[empty];
+            }
+            else
+            {
+                spriteRenderer.sprite = sprites[full];
+            }
+        }
+
     }
-
-    public Esspresso esspresso { get; set; }
-    public EsspressoSize esspressoSize { get; set; }
-
 }

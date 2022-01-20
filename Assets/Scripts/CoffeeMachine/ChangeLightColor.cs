@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ChangeLightColor : MonoBehaviour
+namespace CoffeeCoffee.Buttons
 {
-    public Material[] materials;
-    SpriteRenderer spriteRenderer;
-    private void Awake()
+    public class ChangeLightColor : MonoBehaviour
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.material=materials[0];
-    }
-    public void ChangeMaterial(int selection)
-    {
-        spriteRenderer.material = materials[selection];
+        public Material[] materials;
+        SpriteRenderer spriteRenderer;
+        private void Awake()
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.material = materials[0];
+        }
+        public void ChangeMaterial(int selection)
+        {
+            spriteRenderer.material = materials[selection];
+        }
     }
 }

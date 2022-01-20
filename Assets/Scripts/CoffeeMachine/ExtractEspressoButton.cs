@@ -1,9 +1,7 @@
 using UnityEngine;
-using CoffeeCoffee;
-using CoffeeCoffee.Functionality;
 using System.Collections;
-using System.Collections.Generic;
-using CofffeCoffee.Buttons;
+using CoffeeCoffee.Triggers;
+using CoffeeCoffee.Item;
 
 namespace CoffeeCoffee.Buttons
 {

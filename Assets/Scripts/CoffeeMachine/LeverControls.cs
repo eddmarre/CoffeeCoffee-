@@ -1,4 +1,6 @@
 using System.Collections;
+using CoffeeCoffee.Item;
+using CoffeeCoffee.Triggers;
 using UnityEngine;
 namespace CoffeeCoffee.Buttons
 {
@@ -6,23 +8,25 @@ namespace CoffeeCoffee.Buttons
     {
 
         public GameObject animatedLever;
-        MilkPitcherTrigger milkPitcherTrigger;
-        MilkPitcher milkPitcher;
-
-        float increaseBy = 10f;
-        float decreaseBy = -10f;
-        WaitForSeconds LeverTimer;
-        WaitForSeconds pitcherRestartWaitTimer;
-        WaitForSeconds wrongItemWaitTimer;
-        WaitForSeconds delayedLeverTimer;
         const float WRONG_ITEM_SECONDS_TO_WAIT = .1f;
         const float PITCHER_RESTART_SECONDS_TO_WAIT = 2f;
         const float DELAYED_LEVER_UP_TIMER = .5f;
         const float TIME = .1f;
         const float RIGHT = 5f;
         const float LEFT = -5f;
+
+        MilkPitcherTrigger milkPitcherTrigger;
+        MilkPitcher milkPitcher;
+        WaitForSeconds LeverTimer;
+        WaitForSeconds pitcherRestartWaitTimer;
+        WaitForSeconds wrongItemWaitTimer;
+        WaitForSeconds delayedLeverTimer;
+
+        float increaseBy = 10f;
+        float decreaseBy = -10f;
         bool isPulled = false;
         bool isNotSpamming = true;
+        
         private void Awake()
         {
             milkPitcherTrigger = FindObjectOfType<MilkPitcherTrigger>();
@@ -43,7 +47,7 @@ namespace CoffeeCoffee.Buttons
                 if (milkPitcherTrigger.IsMilkPitcher())
                 {
                     milkPitcher = milkPitcherTrigger.GetMilkPitcher();
-                    if (milkPitcher.IsNotStreamed()&&milkPitcher.IsFilled())
+                    if (milkPitcher.IsNotStreamed() && milkPitcher.IsFilled())
                     {
                         if (isPulled)
                         {
@@ -109,24 +113,6 @@ namespace CoffeeCoffee.Buttons
             ResetOriginalTransform(objectTransform, originalPosition);
             AllowForReplacableItems();
         }
-        private static void ResetOriginalTransform(Transform objectTransform, Vector2 originalPosition)
-        {
-            objectTransform.position = originalPosition;
-        }
-
-        private void AllowForReplacableItems()
-        {
-            milkPitcherTrigger.gameObject.SetActive(false);
-            milkPitcherTrigger.GetDragAndDrop().EnableClick();
-            StartCoroutine(RestartPitcherTriggerTimer());
-            milkPitcherTrigger.NoLongerOccupied();
-        }
-
-        IEnumerator RestartPitcherTriggerTimer()
-        {
-            yield return pitcherRestartWaitTimer;
-            milkPitcherTrigger.gameObject.SetActive(true);
-        }
         IEnumerator WrongItemAnimation(Transform t)
         {
             t.Translate(new Vector3(RIGHT, 0, 0));
@@ -139,6 +125,23 @@ namespace CoffeeCoffee.Buttons
             yield return wrongItemWaitTimer;
             t.Translate(new Vector3(LEFT, 0, 0));
             t.Translate(new Vector3(LEFT, 0, 0));
+        }
+        private static void ResetOriginalTransform(Transform objectTransform, Vector2 originalPosition)
+        {
+            objectTransform.position = originalPosition;
+        }
+        private void AllowForReplacableItems()
+        {
+            milkPitcherTrigger.gameObject.SetActive(false);
+            milkPitcherTrigger.GetDragAndDrop().EnableClick();
+            StartCoroutine(RestartPitcherTriggerTimer());
+            milkPitcherTrigger.NoLongerOccupied();
+        }
+
+        IEnumerator RestartPitcherTriggerTimer()
+        {
+            yield return pitcherRestartWaitTimer;
+            milkPitcherTrigger.gameObject.SetActive(true);
         }
         IEnumerator PullLeverDown()
         {

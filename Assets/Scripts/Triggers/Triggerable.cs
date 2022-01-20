@@ -1,20 +1,25 @@
 using UnityEngine;
 
-public class Triggerable : MonoBehaviour
+namespace CoffeeCoffee.Triggers
 {
-    bool isOccupied=false;
-    public void ResetIsOccupied()
-    {
-        isOccupied = false;
-    }
 
-    public bool GetIsOccupied()
-    {
-        return isOccupied;
-    }
 
-    public void SetIsOccupied(bool trueOrFalse)
+    public class Triggerable:MonoBehaviour
     {
-        isOccupied=trueOrFalse;
+        bool isOccupied = false;
+        public void ResetIsOccupied()
+        {
+            isOccupied = false;
+        }
+
+        public bool GetIsOccupied()
+        {
+            return isOccupied;
+        }
+
+        public void SetIsOccupied(bool trueOrFalse)
+        {
+            isOccupied = trueOrFalse;
+        }
     }
 }

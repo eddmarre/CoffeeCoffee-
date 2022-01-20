@@ -2,74 +2,83 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CoffeeCoffee.Functionality;
-[RequireComponent(typeof(Triggerable))]
-public class EsspressoGlassTrigger : MonoBehaviour
+using CoffeeCoffee.Item;
+
+namespace CoffeeCoffee.Triggers
 {
-    bool isEsspressoGlass;
-    DragAndDrop returnableDnd;
-    EsspressoGlass returnableESPGlass;
-    Triggerable triggerable;
-    WaitForSeconds occupiedTimer;
-    const float TIMER = 1f;
 
-    private void Awake()
-    {
-        triggerable = GetComponent<Triggerable>();
-        occupiedTimer = new WaitForSeconds(TIMER);
-    }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    [RequireComponent(typeof(Triggerable))]
+    public class EsspressoGlassTrigger : MonoBehaviour
     {
-        StopAllCoroutines();
-        if (triggerable.GetIsOccupied()) { return; }
-        if (other.GetComponent<DragAndDrop>())
+        const float TIMER = 1f;
+
+        DragAndDrop returnableDnd;
+        EsspressoGlass returnableESPGlass;
+        Triggerable triggerable;
+        WaitForSeconds occupiedTimer;
+
+        bool isEsspressoGlass;
+
+        private void Awake()
         {
-            SetDragAndDrop(other.GetComponent<DragAndDrop>());
-            StartCoroutine(SetOccupiedTimer());
+            triggerable = GetComponent<Triggerable>();
+            occupiedTimer = new WaitForSeconds(TIMER);
         }
-        if (other.gameObject.GetComponent<EsspressoGlass>())
+
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            SetEsspressoGlass(other.GetComponent<EsspressoGlass>());
-            isEsspressoGlass = true;
+            StopAllCoroutines();
+            if (triggerable.GetIsOccupied()) { return; }
+            if (other.GetComponent<DragAndDrop>())
+            {
+                SetDragAndDrop(other.GetComponent<DragAndDrop>());
+                StartCoroutine(SetOccupiedTimer());
+            }
+            if (other.gameObject.GetComponent<EsspressoGlass>())
+            {
+                SetEsspressoGlass(other.GetComponent<EsspressoGlass>());
+                isEsspressoGlass = true;
+            }
         }
-    }
-    IEnumerator SetOccupiedTimer()
-    {
-        yield return occupiedTimer;
-        triggerable.SetIsOccupied(true);
-    }
-    public void NoLongerOccupied()
-    {
-        triggerable.ResetIsOccupied();
-    }
-    public bool IsEsspressoGlass()
-    {
-        return isEsspressoGlass;
-    }
+        IEnumerator SetOccupiedTimer()
+        {
+            yield return occupiedTimer;
+            triggerable.SetIsOccupied(true);
+        }
+        public void NoLongerOccupied()
+        {
+            triggerable.ResetIsOccupied();
+        }
+        public bool IsEsspressoGlass()
+        {
+            return isEsspressoGlass;
+        }
 
-    public void ResetEsspressoGlassTrigger()
-    {
-        isEsspressoGlass = false;
-    }
+        public void ResetEsspressoGlassTrigger()
+        {
+            isEsspressoGlass = false;
+        }
 
-    public DragAndDrop GetDragAndDrop()
-    {
-        if (null == returnableDnd) { Debug.Log("NullCollider", this); }
-        return returnableDnd;
-    }
+        public DragAndDrop GetDragAndDrop()
+        {
+            if (null == returnableDnd) { Debug.Log("NullCollider", this); }
+            return returnableDnd;
+        }
 
-    void SetDragAndDrop(DragAndDrop dnd)
-    {
-        returnableDnd = dnd;
-    }
+        void SetDragAndDrop(DragAndDrop dnd)
+        {
+            returnableDnd = dnd;
+        }
 
-    public EsspressoGlass GetEsspressoGlass()
-    {
-        if (null == returnableESPGlass) { Debug.Log("NullCollider", this); }
-        return returnableESPGlass;
-    }
-    void SetEsspressoGlass(EsspressoGlass espG)
-    {
-        returnableESPGlass = espG;
+        public EsspressoGlass GetEsspressoGlass()
+        {
+            if (null == returnableESPGlass) { Debug.Log("NullCollider", this); }
+            return returnableESPGlass;
+        }
+        void SetEsspressoGlass(EsspressoGlass espG)
+        {
+            returnableESPGlass = espG;
+        }
     }
 }

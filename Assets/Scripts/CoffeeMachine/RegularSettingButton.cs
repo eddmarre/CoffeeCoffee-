@@ -2,7 +2,7 @@ using UnityEngine;
 using CoffeeCoffee;
 using CoffeeCoffee.Buttons;
 
-namespace CofffeCoffee.Buttons
+namespace CoffeeCoffee.Buttons
 {
     public class RegularSettingButton : MonoBehaviour
     {
@@ -10,9 +10,10 @@ namespace CofffeCoffee.Buttons
         public ChangeLightColor BlondeSettingLight;
         public ChangeLightColor RegularSettingLight;
         public ChangeLightColor DecafSettingLight;
-        int green = 1, red = 0;
+
         DecafSettingButton decafButton;
         BlondeSettingButton blondeButton;
+        int green = 1, red = 0;
         bool isActive = false;
         private void Awake()
         {
