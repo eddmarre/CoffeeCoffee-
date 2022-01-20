@@ -27,7 +27,25 @@ namespace CoffeeCoffee.Dialogue
 
         public override string ToString()
         {
-            return size + " " + flavor + " " + milk + " " + esspresso + " " + beverage + " " + temperature + " " + shot;
+            return size + " " + shot + " " + esspresso + " " + flavor + " " + beverage + " " + temperature + " " + milk;
+        }
+        public override bool Equals(object obj)
+        {
+            if (size == ((Order)obj).size &&
+            flavor == ((Order)obj).flavor &&
+            milk == ((Order)obj).milk &&
+            esspresso == ((Order)obj).esspresso &&
+            beverage == ((Order)obj).beverage &&
+            temperature == ((Order)obj).temperature &&
+            shot == ((Order)obj).shot)
+            {
+                return true;
+            }
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

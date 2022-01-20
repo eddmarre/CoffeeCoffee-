@@ -6,6 +6,8 @@ namespace CoffeeCoffee.Person
 {
     public class People : MonoBehaviour
     {
+        public bool canBeHelped { get; set; }
+        public bool hasOrdered { get; set; }
         const float CLOSE_TEXT_BOX_TIMER = 8f;
         [SerializeField] string greeting = "Hello there, I would like a";
 
@@ -13,20 +15,31 @@ namespace CoffeeCoffee.Person
         GameManager gameManager;
         WaitForSeconds closeTextDelay;
         GameObject textBox;
+        Dialogue.Dialogue dialogue;
+        Color originalSpriteColor;
 
-        bool hasOrdered = false;
         private void Awake()
         {
-            gameManager = GameManager.Instance;
+            canBeHelped = true;
+            hasOrdered = false;
+
+            dialogue = GetComponentInChildren<Dialogue.Dialogue>();
+            textBox = GetComponentInChildren<Canvas>().gameObject;
+
             closeTextDelay = new WaitForSeconds(CLOSE_TEXT_BOX_TIMER);
             orderDialouge = new OrderDialouge();
-            textBox = GetComponentInChildren<Canvas>().gameObject;
+        }
+        private void Start()
+        {
+            gameManager = GameManager.Instance;
             textBox.SetActive(false);
         }
         private void OnMouseDown()
         {
-            if (hasOrdered || gameManager.order != null) { return; }
+            if (hasOrdered || gameManager.customerOrder != null) { return; }
             textBox.SetActive(true);
+            dialogue.CreateDialouge();
+            canBeHelped = false;
             StopAllCoroutines();
             StartCoroutine(CloseTextBoxTimer());
         }
@@ -44,12 +57,18 @@ namespace CoffeeCoffee.Person
             int milkIndex = Random.Range(0, 3);
             int esspressoIndex = Random.Range(0, 3);
             int beverageIndex = Random.Range(0, 3);
-            int temperaturIndex = Random.Range(0, 2);
+            int temperaturIndex = Random.Range(0, 3);
             int shotIndex = Random.Range(0, 3);
 
             string order = orderDialouge.CreateDialougeOrder(greeting, sizeIndex, shotIndex, flavorIndex, milkIndex, esspressoIndex, beverageIndex, temperaturIndex);
-            gameManager.order = orderDialouge.FindOrder();
+            gameManager.customerOrder = orderDialouge.FindOrder();
             return order;
+        }
+
+        public void ChangeSpriteInactive()
+        {
+            originalSpriteColor = GetComponent<SpriteRenderer>().color;
+            GetComponent<SpriteRenderer>().color = Color.black;
         }
 
     }

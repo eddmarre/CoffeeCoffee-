@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CoffeeCoffee.Person;
+using TMPro;
 namespace CoffeeCoffee.Dialogue
 {
     public class Dialogue : MonoBehaviour
     {
         const float SENTENCE_TYPING_TIMER = .05f;
-        Text dialougeText;
+        TextMeshProUGUI dialougeText;
         People person;
         WaitForSeconds typingDelay;
 
@@ -16,12 +17,14 @@ namespace CoffeeCoffee.Dialogue
         {
             typingDelay = new WaitForSeconds(SENTENCE_TYPING_TIMER);
             person = GetComponentInParent<People>();
-            dialougeText = GetComponent<Text>();
+            dialougeText = GetComponent<TextMeshProUGUI>();
         }
-        private void Start()
+
+        public void CreateDialouge()
         {
             StartCoroutine(TypeSentence(person.GetOrder()));
         }
+
         IEnumerator TypeSentence(string d)
         {
             dialougeText.text = "";

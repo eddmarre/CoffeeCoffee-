@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CoffeeCoffee.Dialogue;
 using CoffeeCoffee.Person;
+using CoffeeCoffee.SceneController;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return _instance; } }
 
-    public Order order;
+    public Order customerOrder;
+    public Order playerInputedOrder;
     People[] peoples;
 
     private void Awake()
@@ -25,19 +27,32 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
 
-        
-        peoples=FindObjectsOfType<People>();
-        foreach (People person in peoples)
-        {
-           Debug.Log(person.gameObject.name,this);
-        }
+        peoples = FindObjectsOfType<People>();
     }
 
     private void Update()
     {
-        if(order!=null)
+        if (customerOrder != null)
         {
-            Debug.Log(order.ToString(),this);
+            Debug.Log(customerOrder.ToString() + " customer order", this);
+            if (peoples != null)
+            {
+                foreach (People person in peoples)
+                {
+
+                    if (person.canBeHelped == true)
+                    {
+                        person.ChangeSpriteInactive();
+                    }
+
+                }
+            }
+        }
+
+        if (playerInputedOrder != null && customerOrder != null && customerOrder.Equals(playerInputedOrder))
+        {
+            //reward player
+            Debug.Log("they match woohoo", this);
         }
     }
 }

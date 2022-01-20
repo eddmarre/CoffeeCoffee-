@@ -3,24 +3,22 @@ namespace CoffeeCoffee.Dialogue
     public class OrderDialouge
     {
         string greeting;
-
-        string[] sizes = { "small", "medium", "large" };
-        string[] flavors = { "vanilla", "caramel", "hazelnut", "classic", "mocha" };
-        string[] milks = { "regular", "nonfat", "whole" };
-        string[] esspressos = { "regular", "blonde", "decaf" };
-        string[] beverages = { "latte", "cappuchino", "americano" };
-        string[] temperatures = { "warm", "extra hot" };
-        string[] shots = { "single", "double", "triple" };
-
+        OrderDictionary orderDictionary = new OrderDictionary();
         Order thisOrder;
-
         public string CreateDialougeOrder(string _greeting, int _sizeIndex, int _shots, int _flavorIndex, int _milkIndex, int _esspressoIndex,
         int _beverageIndex, int _temperaure)
         {
-            thisOrder = new Order(sizes[_sizeIndex], shots[_shots], esspressos[_esspressoIndex], 
-            flavors[_flavorIndex], beverages[_beverageIndex], milks[_milkIndex], temperatures[_temperaure]);
-            return _greeting + " " + sizes[_sizeIndex] + " " + shots[_shots] + " " + esspressos[_esspressoIndex] + " " + flavors[_flavorIndex] + " "
-            + beverages[_beverageIndex] + " with " + temperatures[_temperaure] + " " + milks[_milkIndex] + " milk";
+
+            CreateOrder(_sizeIndex, _shots, _flavorIndex, _milkIndex, _esspressoIndex, _beverageIndex, _temperaure);
+
+            return _greeting + " " + orderDictionary.sizes[_sizeIndex] + " " + orderDictionary.shots[_shots] + " " + orderDictionary.esspressos[_esspressoIndex] + " " + orderDictionary.flavors[_flavorIndex] + " "
+            + orderDictionary.beverages[_beverageIndex] + " with " + orderDictionary.temperatures[_temperaure] + " " + orderDictionary.milks[_milkIndex] + " milk";
+        }
+
+        private void CreateOrder(int _sizeIndex, int _shots, int _flavorIndex, int _milkIndex, int _esspressoIndex, int _beverageIndex, int _temperaure)
+        {
+            thisOrder = new Order(orderDictionary.sizes[_sizeIndex], orderDictionary.shots[_shots], orderDictionary.esspressos[_esspressoIndex],
+            orderDictionary.flavors[_flavorIndex], orderDictionary.beverages[_beverageIndex], orderDictionary.milks[_milkIndex], orderDictionary.temperatures[_temperaure]);
         }
 
         public Order FindOrder()
