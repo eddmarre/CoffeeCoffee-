@@ -89,6 +89,7 @@ namespace CoffeeCoffee.Monitor
             GetButtonPressedInfo(SMALL, MEDIUM, LARGE, SINGLE, DOUBLE, TRIPLE, REGUALR, DECAF, BLONDE, LATTE, CAPPUCHINO, AMERICANO, WARM, EXTRA_HOT, REGULAR_TEMP, TWO_PERCENT, WHOLE, NONFAT, VANILLA, CARAMEL, HAZELNUT, MOCHA, CLASSIC);
             CreateDefaultDataIfNecessary();
             CreateOrder();
+            gameManager.peoples = null;
             ChangeSceneToSyrupStation();
         }
 

@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace CoffeeCoffee.Buttons
+namespace CoffeeCoffee.EspressoMahchineButtons
 {
     public class EspressoShotSetting : MonoBehaviour
     {

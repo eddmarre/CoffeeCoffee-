@@ -2,7 +2,7 @@ using System.Collections;
 using CoffeeCoffee.Item;
 using CoffeeCoffee.Triggers;
 using UnityEngine;
-namespace CoffeeCoffee.Buttons
+namespace CoffeeCoffee.EspressoMahchineButtons
 {
     public class LeverControls : MonoBehaviour
     {

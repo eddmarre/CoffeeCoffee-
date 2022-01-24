@@ -3,7 +3,7 @@ using System.Collections;
 using CoffeeCoffee.Triggers;
 using CoffeeCoffee.Item;
 
-namespace CoffeeCoffee.Buttons
+namespace CoffeeCoffee.EspressoMahchineButtons
 {
     class ExtractEspressoButton : MonoBehaviour
     {

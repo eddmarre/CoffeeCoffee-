@@ -4,6 +4,7 @@ using UnityEngine;
 using CoffeeCoffee.Dialogue;
 using CoffeeCoffee.Person;
 using CoffeeCoffee.SceneController;
+using CoffeeCoffee.Item;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class GameManager : MonoBehaviour
 
     public Order customerOrder;
     public Order playerInputedOrder;
-    People[] peoples;
+    public Order FinalCupOrder;
+    public Cup cupCopy; 
+    public People[] peoples;
 
     private void Awake()
     {
@@ -53,6 +56,11 @@ public class GameManager : MonoBehaviour
         {
             //reward player
             Debug.Log("they match woohoo", this);
+        }
+
+        if (FinalCupOrder != null)
+        {
+            Debug.Log(FinalCupOrder.ToString());
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace CoffeeCoffee.Buttons
+namespace CoffeeCoffee.EspressoMahchineButtons
 {
     public class ChangeLightColor : MonoBehaviour
     {

@@ -11,8 +11,8 @@ namespace CoffeeCoffee.Dialogue
 
             CreateOrder(_sizeIndex, _shots, _flavorIndex, _milkIndex, _esspressoIndex, _beverageIndex, _temperaure);
 
-            return _greeting + " " + orderDictionary.sizes[_sizeIndex] + " " + orderDictionary.shots[_shots] + " " + orderDictionary.esspressos[_esspressoIndex] + " " + orderDictionary.flavors[_flavorIndex] + " "
-            + orderDictionary.beverages[_beverageIndex] + " with " + orderDictionary.temperatures[_temperaure] + " " + orderDictionary.milks[_milkIndex] + " milk";
+            return _greeting + " " + orderDictionary.sizes[_sizeIndex] + ", " + orderDictionary.shots[_shots] + " " + orderDictionary.esspressos[_esspressoIndex] + " " + orderDictionary.flavors[_flavorIndex] + " "
+            + orderDictionary.beverages[_beverageIndex] + " with " + orderDictionary.temperatures[_temperaure] + ", " + orderDictionary.milks[_milkIndex] + " milk.";
         }
 
         private void CreateOrder(int _sizeIndex, int _shots, int _flavorIndex, int _milkIndex, int _esspressoIndex, int _beverageIndex, int _temperaure)

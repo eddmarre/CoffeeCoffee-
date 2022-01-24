@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CoffeeCoffee.Item;
 using CoffeeCoffee.Triggers;
 using UnityEngine;
 using UnityEngine.Sprites;
@@ -51,7 +52,10 @@ namespace CoffeeCoffee.Functionality
             if (!other.GetComponent<Triggerable>().GetIsOccupied())
             {
                 LockPosition(other);
-                StartCoroutine(DisableClickTimer());
+                if (!gameObject.GetComponent<Cup>())
+                {
+                    StartCoroutine(DisableClickTimer());
+                }
             }
         }
         private void OnTriggerExit2D(Collider2D other)

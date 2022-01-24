@@ -1,8 +1,8 @@
 using UnityEngine;
 using CoffeeCoffee;
-using CoffeeCoffee.Buttons;
+using CoffeeCoffee.EspressoMahchineButtons;
 
-namespace CoffeeCoffee.Buttons
+namespace CoffeeCoffee.EspressoMahchineButtons
 {
     public class RegularSettingButton : MonoBehaviour
     {
