@@ -41,7 +41,6 @@ namespace CoffeeCoffee.EspressoMahchineButtons
                 {
                     ChangeEsspressoSize();
                     ChangeEsspressoType();
-                    Debug.Log(esspressoGlass.esspresso + " and is size " + esspressoGlass.esspressoSize, this);
                     PourEsspresso();
                     AllowForReplacableItems();
                 }

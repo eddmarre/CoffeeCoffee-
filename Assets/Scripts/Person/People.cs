@@ -58,7 +58,7 @@ namespace CoffeeCoffee.Person
             int esspressoIndex = Random.Range(0, 3);
             int beverageIndex = Random.Range(0, 3);
             int temperaturIndex = Random.Range(0, 3);
-            int shotIndex = Random.Range(0, 3);
+            int shotIndex = Random.Range(0, 2);
 
             string order = orderDialouge.CreateDialougeOrder(greeting, sizeIndex, shotIndex, flavorIndex, milkIndex, esspressoIndex, beverageIndex, temperaturIndex);
             gameManager.customerOrder = orderDialouge.FindOrder();

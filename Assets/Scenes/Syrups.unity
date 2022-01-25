@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e27a94e1a3954489ebc9590ef15c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cup: {fileID: 4445956660599085635, guid: b5014fa84cb630b4fa0a0a75ad3cda22, type: 3}
+  cup: {fileID: 8048056847449440604, guid: 6d139bd2b2022f5409d28b3b5d677ec3, type: 3}
   spawnCupSize: 1
 --- !u!1 &21495681
 GameObject:
@@ -651,7 +651,7 @@ Transform:
   m_GameObject: {fileID: 136774482}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -4729.0264, y: -0.7237265, z: -5.989583}
-  m_LocalScale: {x: 73.23333, y: 60.175407, z: 1}
+  m_LocalScale: {x: 73.23333, y: 97.64444, z: 1}
   m_Children:
   - {fileID: 589697822}
   m_Father: {fileID: 0}
@@ -3189,7 +3189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e27a94e1a3954489ebc9590ef15c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cup: {fileID: 4445956660599085635, guid: b5014fa84cb630b4fa0a0a75ad3cda22, type: 3}
+  cup: {fileID: 8048056847449440604, guid: 6d139bd2b2022f5409d28b3b5d677ec3, type: 3}
   spawnCupSize: 0
 --- !u!1 &718674783
 GameObject:
@@ -5872,7 +5872,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 324.9472
+  orthographic size: 527.27997
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -6430,7 +6430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e27a94e1a3954489ebc9590ef15c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cup: {fileID: 4445956660599085635, guid: b5014fa84cb630b4fa0a0a75ad3cda22, type: 3}
+  cup: {fileID: 8048056847449440604, guid: 6d139bd2b2022f5409d28b3b5d677ec3, type: 3}
   spawnCupSize: 2
 --- !u!1 &1648980544
 GameObject:

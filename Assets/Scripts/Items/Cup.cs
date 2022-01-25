@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CoffeeCoffee.Functionality;
 using CoffeeCoffee.Dialogue;
+using UnityEngine.SceneManagement;
 
 namespace CoffeeCoffee.Item
 {
@@ -21,14 +22,14 @@ namespace CoffeeCoffee.Item
 
         bool isEmpty = true;
         bool hasSyrup;
-        bool hasEsspresso;
-        bool hasMilk;
+        bool hasEsspresso = false;
+        bool hasMilk = false;
+        bool hasAllComponent = false;
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
-            DontDestroyOnLoad(this.gameObject);
         }
 
         private void Start()
@@ -42,7 +43,23 @@ namespace CoffeeCoffee.Item
             {
                 CupOrder = new Order();
             }
+            SetDictionaryCupSizes();
+        }
+        private void Update()
+        {
+            if(hasMilk && hasEsspresso)
+            {
+                hasAllComponent=true;
+            }
+            if (hasAllComponent)
+            {
+                int register = 2;
+                SceneManager.LoadScene(register);
+            }
+        }
 
+        private void SetDictionaryCupSizes()
+        {
             if (cupSize == CupSize.small)
             {
                 CupOrder.size = orderDictionary.sizes[0];
@@ -56,9 +73,21 @@ namespace CoffeeCoffee.Item
                 CupOrder.size = orderDictionary.sizes[2];
             }
         }
-        public void FillCup()
-        {
 
+        public void FillCupEsspresso(string esspresso, string shots)
+        {
+            CupOrder.shot = shots;
+            CupOrder.esspresso = esspresso;
+            hasEsspresso = true;
+            SetFinalCupOrder();
+
+        }
+
+        public void FillCupMilk(string milk)
+        {
+            CupOrder.milk = milk;
+            hasMilk = true;
+            SetFinalCupOrder();
         }
 
         public bool IsEmpty()
@@ -69,7 +98,6 @@ namespace CoffeeCoffee.Item
         public void SetFinalCupOrder()
         {
             gameManager.FinalCupOrder = CupOrder.DeepCopy();
-            gameManager.cupCopy = this;
         }
 
     }

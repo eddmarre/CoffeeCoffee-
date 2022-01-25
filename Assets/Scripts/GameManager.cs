@@ -60,8 +60,13 @@ public class GameManager : MonoBehaviour
 
         if (FinalCupOrder != null)
         {
-            Debug.Log(FinalCupOrder.ToString());
+           // Debug.Log(FinalCupOrder.ToString());
         }
+    }
+
+    public Order GetFinalCupOrder()
+    {
+        return FinalCupOrder;
     }
 }
 

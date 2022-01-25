@@ -61,14 +61,14 @@ namespace CoffeeCoffee.Item
         IEnumerator WaitForAnimation(Collision2D o)
         {
             yield return animationWaitTimer;
-            FillPitcher(o);
+            FillPitcher();
             yield return locationSwapTimer;
             FinishMilkPour(o);
         }
 
-        private static void FillPitcher(Collision2D o)
+        private static void FillPitcher()
         {
-            o.gameObject.GetComponent<MilkPitcher>().FillMilkPitcher();
+            FindObjectOfType<MilkPitcher>().FillMilkPitcher();
         }
 
         private void FinishMilkPour(Collision2D o)
@@ -77,7 +77,7 @@ namespace CoffeeCoffee.Item
             o.gameObject.transform.DetachChildren();
             transform.SetParent(originalParent);
             //respawn to the right of pitcher
-            transform.position = o.transform.position + new Vector3(xOffset, 0, 0);
+            transform.position = FindObjectOfType<MilkPitcher>().transform.position + new Vector3(xOffset, 0, 0);
             gameObject.GetComponent<Collider2D>().enabled = true;
         }
 

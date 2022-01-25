@@ -8,7 +8,7 @@ namespace CoffeeCoffee.CupCaddy
 {
     public class CupCaddySpawner : MonoBehaviour
     {
-        public GameObject cup;
+        public Cup cup;
         public enum SpawnerSize { small, medium, large };
         public SpawnerSize spawnCupSize;
         float yOffset = 150f;
@@ -23,8 +23,8 @@ namespace CoffeeCoffee.CupCaddy
         {
             if (canSpawn)
             {
-                var thisCupGameObject = Instantiate(cup, transform.position + new Vector3(0, yOffset, 0), Quaternion.identity);
-                var thisCup = thisCupGameObject.GetComponentInChildren<Cup>();
+                var thisCupGameObject = Instantiate(cup.gameObject, transform.position + new Vector3(0, yOffset, 0), Quaternion.identity);
+                var thisCup = thisCupGameObject.GetComponent<Cup>();
                 if (spawnCupSize == SpawnerSize.small)
                 {
                     thisCup.cupSize = Cup.CupSize.small;
