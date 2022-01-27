@@ -11,12 +11,13 @@ namespace CoffeeCoffee.Item
     public class Cup : MonoBehaviour
     {
 
-
         public enum CupSize { small, medium, large };
         public CupSize cupSize { get; set; }
+        public Order CupOrder;
+
         GameManager gameManager;
         OrderDictionary orderDictionary = new OrderDictionary();
-        public Order CupOrder;
+
         SpriteRenderer spriteRenderer;
         Animator animator;
 
@@ -25,6 +26,7 @@ namespace CoffeeCoffee.Item
         bool hasEsspresso = false;
         bool hasMilk = false;
         bool hasAllComponent = false;
+        bool canPerform;
 
         private void Awake()
         {
@@ -35,6 +37,13 @@ namespace CoffeeCoffee.Item
         private void Start()
         {
             gameManager = GameManager.Instance;
+            CreateCurrentCupOrder();
+            SetDictionaryCupSizes();
+            canPerform = true;
+        }
+
+        private void CreateCurrentCupOrder()
+        {
             if (gameManager.FinalCupOrder != null)
             {
                 CupOrder = gameManager.FinalCupOrder.DeepCopy();
@@ -43,19 +52,50 @@ namespace CoffeeCoffee.Item
             {
                 CupOrder = new Order();
             }
-            SetDictionaryCupSizes();
         }
+
         private void Update()
         {
-            if(hasMilk && hasEsspresso)
+
+            canPerform = SetDictionaryLatte(canPerform);
+            canPerform = SetDictionaryMachiatto(canPerform);
+            ChangeSceneAfterCupFill();
+        }
+
+        private void ChangeSceneAfterCupFill()
+        {
+            if (hasMilk && hasEsspresso)
             {
-                hasAllComponent=true;
+                SetFinalCupOrder();
+                hasAllComponent = true;
             }
             if (hasAllComponent)
             {
-                int register = 2;
-                SceneManager.LoadScene(register);
+                int handOff = 5;
+                SceneManager.LoadScene(handOff);
             }
+        }
+
+        private bool SetDictionaryMachiatto(bool canPerform)
+        {
+            if (hasMilk && !hasEsspresso && canPerform)
+            {
+                CupOrder.beverage = orderDictionary.beverages[1];
+                canPerform = false;
+            }
+
+            return canPerform;
+        }
+
+        private bool SetDictionaryLatte(bool canPerform)
+        {
+            if (hasEsspresso && !hasMilk && canPerform)
+            {
+                CupOrder.beverage = orderDictionary.beverages[0];
+                canPerform = false;
+            }
+
+            return canPerform;
         }
 
         private void SetDictionaryCupSizes()
@@ -87,6 +127,12 @@ namespace CoffeeCoffee.Item
         {
             CupOrder.milk = milk;
             hasMilk = true;
+            SetFinalCupOrder();
+        }
+
+        public void FillCupTemperature(string temp)
+        {
+            CupOrder.temperature = temp;
             SetFinalCupOrder();
         }
 

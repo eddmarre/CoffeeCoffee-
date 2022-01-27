@@ -7,6 +7,7 @@ namespace CoffeeCoffee.Item
     {
         public enum MilkCartonType { none, nonFat, twoPercent, wholeMilk };
         public MilkCartonType milkCartonType;
+
         const string POUR_MILK_ANIMATION = "PourMilk";
         const float LOCATION_TIMER = .2f;
         const float ANIMATION_TIMER = 1f;
@@ -36,7 +37,6 @@ namespace CoffeeCoffee.Item
                 lockPosition(other);
             }
         }
-
         private void OnCollisionStay2D(Collision2D other)
         {
             if (other.gameObject.GetComponent<MilkPitcher>() && !other.gameObject.GetComponent<MilkPitcher>().IsFilled())
@@ -46,7 +46,6 @@ namespace CoffeeCoffee.Item
                 StartCoroutine(WaitForLocationSwap(other));
             }
         }
-
         private void lockPosition(Collision2D other)
         {
             transform.position = other.gameObject.transform.position + new Vector3(xPosition, yPosition, 0);
@@ -58,6 +57,12 @@ namespace CoffeeCoffee.Item
             StartMilkPour();
             StartCoroutine(WaitForAnimation(o));
         }
+        private void StartMilkPour()
+        {
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            animator.SetBool(POUR_MILK_ANIMATION, true);
+        }
+
         IEnumerator WaitForAnimation(Collision2D o)
         {
             yield return animationWaitTimer;
@@ -65,12 +70,10 @@ namespace CoffeeCoffee.Item
             yield return locationSwapTimer;
             FinishMilkPour(o);
         }
-
         private static void FillPitcher()
         {
             FindObjectOfType<MilkPitcher>().FillMilkPitcher();
         }
-
         private void FinishMilkPour(Collision2D o)
         {
             animator.SetBool(POUR_MILK_ANIMATION, false);
@@ -80,13 +83,5 @@ namespace CoffeeCoffee.Item
             transform.position = FindObjectOfType<MilkPitcher>().transform.position + new Vector3(xOffset, 0, 0);
             gameObject.GetComponent<Collider2D>().enabled = true;
         }
-
-        private void StartMilkPour()
-        {
-            gameObject.GetComponent<Collider2D>().enabled = false;
-            animator.SetBool(POUR_MILK_ANIMATION, true);
-        }
-
-
     }
 }

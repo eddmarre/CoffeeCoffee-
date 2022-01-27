@@ -5,6 +5,7 @@ using CoffeeCoffee.Dialogue;
 using CoffeeCoffee.Person;
 using CoffeeCoffee.SceneController;
 using CoffeeCoffee.Item;
+using CoffeeCoffee.Score;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,10 +16,15 @@ public class GameManager : MonoBehaviour
     public Order customerOrder;
     public Order playerInputedOrder;
     public Order FinalCupOrder;
-    public Cup cupCopy; 
+    public Cup cupCopy;
     public People[] peoples;
 
     private void Awake()
+    {
+        CreateInstance();
+        peoples = FindObjectsOfType<People>();
+    }
+    private void CreateInstance()
     {
         if (_instance != null && _instance != this)
         {
@@ -29,11 +35,15 @@ public class GameManager : MonoBehaviour
             _instance = this;
         }
         DontDestroyOnLoad(this.gameObject);
-
-        peoples = FindObjectsOfType<People>();
     }
 
     private void Update()
+    {
+        DeactivateNonActiveCustomersAfterOrder();
+        ReviewPlayerMonitorInput();
+        ReviewPlayerCup();
+    }
+    private void DeactivateNonActiveCustomersAfterOrder()
     {
         if (customerOrder != null)
         {
@@ -42,25 +52,39 @@ public class GameManager : MonoBehaviour
             {
                 foreach (People person in peoples)
                 {
-
                     if (person.canBeHelped == true)
                     {
                         person.ChangeSpriteInactive();
                     }
-
                 }
             }
         }
+    }
 
+    private void ReviewPlayerMonitorInput()
+    {
         if (playerInputedOrder != null && customerOrder != null && customerOrder.Equals(playerInputedOrder))
         {
-            //reward player
+            if (FindObjectOfType<ScoreManager>())
+            {
+                ScoreManager score = FindObjectOfType<ScoreManager>();
+                score.SetScoreText("999");
+            }
             Debug.Log("they match woohoo", this);
         }
+    }
 
-        if (FinalCupOrder != null)
+    private void ReviewPlayerCup()
+    {
+        if (FinalCupOrder != null && customerOrder != null && customerOrder.Equals(FinalCupOrder))
         {
-           // Debug.Log(FinalCupOrder.ToString());
+            //reward player
+            if (FindObjectOfType<ScoreManager>())
+            {
+                ScoreManager score = FindObjectOfType<ScoreManager>();
+                score.SetTipText("9.99");
+            }
+            Debug.Log("HEY THATS MY LATTE", this);
         }
     }
 

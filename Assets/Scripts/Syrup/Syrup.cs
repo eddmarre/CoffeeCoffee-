@@ -10,16 +10,19 @@ namespace CoffeeCoffee.Syrup
 
     public class Syrup : MonoBehaviour
     {
-        const float LEVEL_CHANGE_DELAY = 1f;
-
         public enum SyrupFlavor { vanilla, caramel, hazelnut, classic, mocha };
         public SyrupFlavor syrupFlavor;
+        public bool isUsed;
+
+        const float LEVEL_CHANGE_DELAY = 1f;
+
+        
         new Collider2D collider2D;
         OrderDictionary orderDictionary = new OrderDictionary();
-        public bool isUsed;
         Cup cup;
-        string CupInputFlavor;
         WaitForSeconds changeLevelWaitTimer;
+
+        string CupInputFlavor;
         private void Awake()
         {
             collider2D = GetComponent<Collider2D>();
@@ -70,7 +73,6 @@ namespace CoffeeCoffee.Syrup
             int espMachine = 3;
             StartCoroutine(SceneChangeDelay(espMachine));
         }
-
         IEnumerator SceneChangeDelay(int buildIndex)
         {
             yield return changeLevelWaitTimer;

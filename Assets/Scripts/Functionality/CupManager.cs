@@ -17,18 +17,5 @@ namespace CoffeeCoffee.Functionality
             gameManager = GameManager.Instance;
             thisCup.CupOrder = gameManager.GetFinalCupOrder();
         }
-
-        private void Update()
-        {
-            try
-            {
-                Debug.Log(thisCup.CupOrder.ToString(), this);
-            }
-            catch
-            {
-                Debug.LogWarning("No final Cup Order in Game Manager", this);
-            }
-
-        }
     }
 }

@@ -8,7 +8,9 @@ namespace CoffeeCoffee.Person
     {
         public bool canBeHelped { get; set; }
         public bool hasOrdered { get; set; }
+
         const float CLOSE_TEXT_BOX_TIMER = 8f;
+
         [SerializeField] string greeting = "Hello there, I would like a";
 
         OrderDialouge orderDialouge;
@@ -38,7 +40,7 @@ namespace CoffeeCoffee.Person
         {
             if (hasOrdered || gameManager.customerOrder != null) { return; }
             textBox.SetActive(true);
-            dialogue.CreateDialouge();
+            dialogue.CreateOrderDialouge();
             canBeHelped = false;
             StopAllCoroutines();
             StartCoroutine(CloseTextBoxTimer());
@@ -56,7 +58,7 @@ namespace CoffeeCoffee.Person
             int flavorIndex = Random.Range(0, 5);
             int milkIndex = Random.Range(0, 3);
             int esspressoIndex = Random.Range(0, 3);
-            int beverageIndex = Random.Range(0, 3);
+            int beverageIndex = Random.Range(0, 2);
             int temperaturIndex = Random.Range(0, 3);
             int shotIndex = Random.Range(0, 2);
 
@@ -70,6 +72,5 @@ namespace CoffeeCoffee.Person
             originalSpriteColor = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = Color.black;
         }
-
     }
 }

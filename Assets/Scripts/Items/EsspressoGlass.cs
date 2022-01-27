@@ -16,38 +16,41 @@ namespace CoffeeCoffee.Item
         public Esspresso esspresso { get; set; }
         public EsspressoSize esspressoSize { get; set; }
         public Sprite[] sprites;
+
+        public string CupInputEsspresso;
+        public string CupInputShots;
+
         const string FILL_GLASS_TRIGGER = "FillGlass";
         const string POUR_GLASS_TRIGGER = "PourGlass";
         const float LOCATION_TIMER = .2f;
         const float ANIMATION_TIMER = 1f;
 
         OrderDictionary orderDictionary = new OrderDictionary();
-
         SpriteRenderer spriteRenderer;
         Animator animator;
         WaitForSeconds locationSwapTimer;
         WaitForSeconds animationWaitTimer;
         Transform originalParent;
+
         bool isEmpty = true;
         int empty = 0, full = 1;
         float xPosition = 50f;
         float yPosition = 120f;
         float xOffset = 100f;
 
-        public string CupInputEsspresso;
-        public string CupInputShots;
-
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
             esspresso = Esspresso.none;
             esspressoSize = EsspressoSize.none;
+
             originalParent = transform.parent;
-            spriteRenderer = GetComponent<SpriteRenderer>();
+
             locationSwapTimer = new WaitForSeconds(LOCATION_TIMER);
             animationWaitTimer = new WaitForSeconds(ANIMATION_TIMER);
         }
-
 
         private void OnCollisionEnter2D(Collision2D other)
         {
@@ -57,7 +60,6 @@ namespace CoffeeCoffee.Item
                 lockPosition(other);
             }
         }
-
         private void OnCollisionStay2D(Collision2D other)
         {
             if (other.gameObject.GetComponent<Cup>() && !isEmpty)
@@ -78,6 +80,11 @@ namespace CoffeeCoffee.Item
             StartEsspressoPour();
             StartCoroutine(WaitForAnimation(o));
         }
+        private void StartEsspressoPour()
+        {
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            animator.SetTrigger(POUR_GLASS_TRIGGER);
+        }
         IEnumerator WaitForAnimation(Collision2D o)
         {
             yield return animationWaitTimer;
@@ -92,20 +99,12 @@ namespace CoffeeCoffee.Item
         {
             cup.gameObject.GetComponent<Cup>().FillCupEsspresso(CupInputEsspresso, CupInputShots);
         }
-
         private void FinishEsspressoPour(Collision2D o)
         {
             //respawn to the right of pitcher
             transform.position = o.transform.position + new Vector3(xOffset, 0, 0);
             gameObject.GetComponent<Collider2D>().enabled = true;
         }
-
-        private void StartEsspressoPour()
-        {
-            gameObject.GetComponent<Collider2D>().enabled = false;
-            animator.SetTrigger(POUR_GLASS_TRIGGER);
-        }
-
 
         public void PourEsspressoIntoShotGlass()
         {
@@ -115,7 +114,6 @@ namespace CoffeeCoffee.Item
             SetDictionaryEsspressoShots();
             setSprite();
         }
-
         private void SetDictionaryEsspressoShots()
         {
             if (esspressoSize == EsspressoSize.esingle)
@@ -143,12 +141,6 @@ namespace CoffeeCoffee.Item
                 CupInputEsspresso = orderDictionary.esspressos[2];
             }
         }
-
-        public bool IsEmpty()
-        {
-            return isEmpty;
-        }
-
         public void setSprite()
         {
             if (isEmpty)
@@ -161,5 +153,9 @@ namespace CoffeeCoffee.Item
             }
         }
 
+        public bool IsEmpty()
+        {
+            return isEmpty;
+        }
     }
 }

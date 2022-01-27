@@ -263,6 +263,7 @@ namespace CoffeeCoffee.Monitor
             yield return changeLevelWaitTimer;
             SceneManager.LoadScene(buildIndex);
         }
+        
         public Order GetPlayerCreatedOrder()
         {
             return playerOrder.GetOrder();

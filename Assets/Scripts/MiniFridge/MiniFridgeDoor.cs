@@ -5,9 +5,9 @@ namespace CoffeeCoffee.MiniFridge
 {
     public class MiniFridgeDoor : MonoBehaviour
     {
+        const string OPEN_DOOR_ANIMATION = "OpenDoor";
         Animator animator;
         [SerializeField] GameObject itemInFridge;
-        const string OPEN_DOOR_ANIMATION = "OpenDoor";
         private void Awake()
         {
             animator = GetComponent<Animator>();

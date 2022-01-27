@@ -11,11 +11,13 @@ namespace CoffeeCoffee.Functionality
         const float semiVisible = .5f;
         const float fullyVisible = 1f;
         const float disableClickDelayTime = .5f;
+
         Vector3 mOffset;
         Camera main;
         WaitForSeconds delayTimer;
         new Collider2D collider2D;
         Triggerable triggerable;
+
         float mZCoord;
         private void Awake()
         {
@@ -23,6 +25,7 @@ namespace CoffeeCoffee.Functionality
             collider2D = GetComponent<Collider2D>();
             delayTimer = new WaitForSeconds(disableClickDelayTime);
         }
+        
         private void OnMouseDown()
         {
             GenerateOffSet();
@@ -36,6 +39,7 @@ namespace CoffeeCoffee.Functionality
         {
             MoveObject();
         }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.GetComponent<Triggerable>().GetIsOccupied())

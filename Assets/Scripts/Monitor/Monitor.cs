@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace CoffeeCoffee.Monitor
 {
-
-
     public class Monitor : MonoBehaviour
     {
         public GameObject FullScreenMonitor;

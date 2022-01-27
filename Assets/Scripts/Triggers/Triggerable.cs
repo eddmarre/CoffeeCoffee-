@@ -2,8 +2,6 @@ using UnityEngine;
 
 namespace CoffeeCoffee.Triggers
 {
-
-
     public class Triggerable:MonoBehaviour
     {
         bool isOccupied = false;

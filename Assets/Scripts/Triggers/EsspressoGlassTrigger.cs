@@ -6,8 +6,6 @@ using CoffeeCoffee.Item;
 
 namespace CoffeeCoffee.Triggers
 {
-
-
     [RequireComponent(typeof(Triggerable))]
     public class EsspressoGlassTrigger : MonoBehaviour
     {
@@ -41,20 +39,26 @@ namespace CoffeeCoffee.Triggers
                 isEsspressoGlass = true;
             }
         }
+        void SetDragAndDrop(DragAndDrop dnd)
+        {
+            returnableDnd = dnd;
+        }
+        
         IEnumerator SetOccupiedTimer()
         {
             yield return occupiedTimer;
             triggerable.SetIsOccupied(true);
         }
+
+        void SetEsspressoGlass(EsspressoGlass espG)
+        {
+            returnableESPGlass = espG;
+        }
+
         public void NoLongerOccupied()
         {
             triggerable.ResetIsOccupied();
         }
-        public bool IsEsspressoGlass()
-        {
-            return isEsspressoGlass;
-        }
-
         public void ResetEsspressoGlassTrigger()
         {
             isEsspressoGlass = false;
@@ -65,20 +69,16 @@ namespace CoffeeCoffee.Triggers
             if (null == returnableDnd) { Debug.Log("NullCollider", this); }
             return returnableDnd;
         }
-
-        void SetDragAndDrop(DragAndDrop dnd)
-        {
-            returnableDnd = dnd;
-        }
-
         public EsspressoGlass GetEsspressoGlass()
         {
             if (null == returnableESPGlass) { Debug.Log("NullCollider", this); }
             return returnableESPGlass;
         }
-        void SetEsspressoGlass(EsspressoGlass espG)
+
+        public bool IsEsspressoGlass()
         {
-            returnableESPGlass = espG;
+            return isEsspressoGlass;
         }
+
     }
 }

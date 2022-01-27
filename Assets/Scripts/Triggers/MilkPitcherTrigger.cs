@@ -6,12 +6,10 @@ using UnityEngine;
 namespace CoffeeCoffee.Triggers
 {
 
-
     [RequireComponent(typeof(Triggerable))]
     public class MilkPitcherTrigger : MonoBehaviour
     {
         const float TIMER = 1f;
-
 
         DragAndDrop returnableDnd;
         MilkPitcher returnableMLKPitcher;
@@ -41,18 +39,24 @@ namespace CoffeeCoffee.Triggers
                 isMilkPitcher = true;
             }
         }
+        void SetDragAndDrop(DragAndDrop dnd)
+        {
+            returnableDnd = dnd;
+        }
+
         IEnumerator SetOccupiedTimer()
         {
             yield return occupiedTimer;
             triggerable.SetIsOccupied(true);
         }
+        void SetMilkPitcher(MilkPitcher mlkG)
+        {
+            returnableMLKPitcher = mlkG;
+        }
+
         public void NoLongerOccupied()
         {
             triggerable.ResetIsOccupied();
-        }
-        public bool IsMilkPitcher()
-        {
-            return isMilkPitcher;
         }
 
         public void ResetMilkPitcherTrigger()
@@ -65,20 +69,14 @@ namespace CoffeeCoffee.Triggers
             if (null == returnableDnd) { Debug.Log("NullCollider", this); }
             return returnableDnd;
         }
-
-        void SetDragAndDrop(DragAndDrop dnd)
-        {
-            returnableDnd = dnd;
-        }
-
         public MilkPitcher GetMilkPitcher()
         {
             if (null == returnableMLKPitcher) { Debug.Log("NullCollider", this); }
             return returnableMLKPitcher;
         }
-        void SetMilkPitcher(MilkPitcher mlkG)
+        public bool IsMilkPitcher()
         {
-            returnableMLKPitcher = mlkG;
+            return isMilkPitcher;
         }
     }
 }

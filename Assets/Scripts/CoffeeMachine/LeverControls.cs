@@ -22,14 +22,17 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         WaitForSeconds wrongItemWaitTimer;
         WaitForSeconds delayedLeverTimer;
 
+        TemperatureButton temperatureButton;
+
         float increaseBy = 10f;
         float decreaseBy = -10f;
         bool isPulled = false;
         bool isNotSpamming = true;
-        
+
         private void Awake()
         {
             milkPitcherTrigger = FindObjectOfType<MilkPitcherTrigger>();
+            temperatureButton = FindObjectOfType<TemperatureButton>();
 
             LeverTimer = new WaitForSeconds(TIME);
             pitcherRestartWaitTimer = new WaitForSeconds(PITCHER_RESTART_SECONDS_TO_WAIT);

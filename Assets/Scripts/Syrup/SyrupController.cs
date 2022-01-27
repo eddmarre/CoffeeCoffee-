@@ -12,6 +12,7 @@ namespace CoffeeCoffee.Syrup
         {
             syrups = GetComponentsInChildren<Syrup>();
         }
+
         private void Start()
         {
             foreach (Syrup syrup in syrups)
@@ -19,20 +20,12 @@ namespace CoffeeCoffee.Syrup
                 syrup.DisableSyrupCollider();
             }
         }
+
         private void Update()
         {
             DisableSyrupColliders();
         }
-
-        public void EnableSyrupColliders()
-        {
-            foreach (Syrup syrup in syrups)
-            {
-                syrup.EnableSyrupCollider();
-            }
-        }
-
-        public void DisableSyrupColliders()
+        private void DisableSyrupColliders()
         {
             foreach (Syrup syrup in syrups)
             {
@@ -43,6 +36,14 @@ namespace CoffeeCoffee.Syrup
                         bottle.DisableSyrupCollider();
                     }
                 }
+            }
+        }
+
+        public void EnableSyrupColliders()
+        {
+            foreach (Syrup syrup in syrups)
+            {
+                syrup.EnableSyrupCollider();
             }
         }
     }

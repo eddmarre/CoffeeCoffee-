@@ -19,8 +19,8 @@ namespace CoffeeCoffee.Dialogue
             person = GetComponentInParent<People>();
             dialougeText = GetComponent<TextMeshProUGUI>();
         }
-
-        public void CreateDialouge()
+        
+        public void CreateOrderDialouge()
         {
             StartCoroutine(TypeSentence(person.GetOrder()));
         }
