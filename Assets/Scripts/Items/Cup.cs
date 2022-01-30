@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 namespace CoffeeCoffee.Item
 {
-    [RequireComponent(typeof(DragAndDrop))]
     public class Cup : MonoBehaviour
     {
 

@@ -97,7 +97,14 @@ namespace CoffeeCoffee.Item
 
         void FillCup(Collision2D cup)
         {
-            cup.gameObject.GetComponent<Cup>().FillCupEsspresso(CupInputEsspresso, CupInputShots);
+            try
+            {
+                cup.gameObject.GetComponent<Cup>().FillCupEsspresso(CupInputEsspresso, CupInputShots);
+            }
+            catch
+            {
+                Debug.LogWarning("Couldn't fill esspresso into cup", this);
+            }
         }
         private void FinishEsspressoPour(Collision2D o)
         {

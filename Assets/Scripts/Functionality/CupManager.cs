@@ -8,13 +8,19 @@ namespace CoffeeCoffee.Functionality
     {
         GameManager gameManager;
         Cup thisCup;
+        DragAndDrop dnd;
+        Rigidbody2D rigidbody2D;
         private void Awake()
         {
             thisCup = GetComponentInChildren<Cup>();
+            dnd=GetComponentInChildren<DragAndDrop>();
+            rigidbody2D=GetComponentInChildren<Rigidbody2D>();
         }
         private void Start()
         {
             gameManager = GameManager.Instance;
+            Destroy(dnd);
+            rigidbody2D.freezeRotation=true;
             thisCup.CupOrder = gameManager.GetFinalCupOrder();
         }
     }

@@ -21,7 +21,15 @@ namespace CoffeeCoffee.Dialogue
         }
         public Order()
         {
-
+            OrderDictionary orderDictionary = new OrderDictionary();
+            
+            size = orderDictionary.sizes[0];
+            flavor = orderDictionary.flavors[0];
+            milk = orderDictionary.milks[0];
+            esspresso = orderDictionary.esspressos[0];
+            beverage = orderDictionary.beverages[0];
+            temperature = orderDictionary.temperatures[0];
+            shot = orderDictionary.shots[0];
         }
 
         public Order GetOrder()

@@ -7,6 +7,9 @@ namespace CoffeeCoffee.EspressoMahchineButtons
 {
     class ExtractEspressoButton : MonoBehaviour
     {
+
+        public GameObject esspressoPourEffect;
+        public Transform spawnLocation;
         EsspressoGlassTrigger esspressoGlassTrigger;
         EsspressoGlass esspressoGlass;
         WaitForSeconds glassRestartWaitTimer;
@@ -116,7 +119,15 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         private void PourEsspresso()
         {
             esspressoGlass.PourEsspressoIntoShotGlass();
+            CreatePouringEsspresso();
             esspressoGlassTrigger.ResetEsspressoGlassTrigger();
+        }
+
+        private void CreatePouringEsspresso()
+        {
+            var esspressoPour = Instantiate(esspressoPourEffect, spawnLocation.position, Quaternion.identity);
+            float destroyTimer = 5f;
+            Destroy(esspressoPour, destroyTimer);
         }
 
         IEnumerator RestartGlassTriggerTimer()

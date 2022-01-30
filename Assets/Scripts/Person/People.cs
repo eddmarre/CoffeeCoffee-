@@ -6,10 +6,12 @@ namespace CoffeeCoffee.Person
 {
     public class People : MonoBehaviour
     {
+        [Range(0, 2)] public int PersonBuildIndex;
+        float personWalkSpeed = 2f;
         public bool canBeHelped { get; set; }
-        public bool hasOrdered { get; set; }
 
-        const float CLOSE_TEXT_BOX_TIMER = 8f;
+        const float CLOSE_TEXT_BOX_TIMER = 5f;
+        const string REACHED_DESTINATION_TRIGGER = "ReachedDestination";
 
         [SerializeField] string greeting = "Hello there, I would like a";
 
@@ -19,14 +21,18 @@ namespace CoffeeCoffee.Person
         GameObject textBox;
         Dialogue.Dialogue dialogue;
         Color originalSpriteColor;
+        Transform moveTolocation;
+        bool isFirstTimePlacingOrder;
 
         private void Awake()
         {
             canBeHelped = true;
-            hasOrdered = false;
+            isFirstTimePlacingOrder = true;
 
-            dialogue = GetComponentInChildren<Dialogue.Dialogue>();
-            textBox = GetComponentInChildren<Canvas>().gameObject;
+            dialogue = FindObjectOfType<Dialogue.Dialogue>();
+            textBox = FindObjectOfType<TextCanvas>().gameObject;
+
+            moveTolocation = FindObjectOfType<MoveLocation>().transform;
 
             closeTextDelay = new WaitForSeconds(CLOSE_TEXT_BOX_TIMER);
             orderDialouge = new OrderDialouge();
@@ -34,22 +40,57 @@ namespace CoffeeCoffee.Person
         private void Start()
         {
             gameManager = GameManager.Instance;
+
             textBox.SetActive(false);
+            Vector2 location = new Vector2(moveTolocation.position.x, moveTolocation.position.y);
+
+            StartCoroutine(LerpPosition(location, personWalkSpeed));
+        }
+
+        IEnumerator LerpPosition(Vector2 targetPosition, float duration)
+        {
+            float time = 0;
+            Vector2 startPosition = transform.position;
+
+            while (time < duration)
+            {
+                transform.position = Vector2.Lerp(startPosition, targetPosition, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = targetPosition;
         }
         private void OnMouseDown()
         {
-            if (hasOrdered || gameManager.customerOrder != null) { return; }
+            if (!canBeHelped && gameManager.customerOrder != null) { return; }
             textBox.SetActive(true);
-            dialogue.CreateOrderDialouge();
-            canBeHelped = false;
-            StopAllCoroutines();
-            StartCoroutine(CloseTextBoxTimer());
+            FindObjectOfType<Name>().SetName();
+            if (isFirstTimePlacingOrder)
+            {
+                dialogue.CreateOrderDialouge();
+                isFirstTimePlacingOrder = false;
+                StartCoroutine(CloseTextBoxTimer());
+            }
+            else
+            {
+                StartCoroutine(CloseTextBoxTimerAgainForReOrdering());
+            }
+
         }
         IEnumerator CloseTextBoxTimer()
         {
+            canBeHelped = false;
             yield return closeTextDelay;
             textBox.SetActive(false);
-            hasOrdered = true;
+            canBeHelped = true;
+        }
+
+        IEnumerator CloseTextBoxTimerAgainForReOrdering()
+        {
+            canBeHelped = false;
+            yield return new WaitForSeconds(3f);
+            textBox.SetActive(false);
+            canBeHelped = true;
         }
 
         public string GetOrder()
@@ -72,5 +113,7 @@ namespace CoffeeCoffee.Person
             originalSpriteColor = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = Color.black;
         }
+
+
     }
 }

@@ -8,9 +8,11 @@ namespace CoffeeCoffee.Dialogue
 {
     public class Name : MonoBehaviour
     {
-        private void Awake()
+        public void SetName()
         {
-            GetComponent<TextMeshProUGUI>().text=GetComponentInParent<People>().gameObject.name;
+            var name = FindObjectOfType<People>().gameObject.name;
+            //name.Replace("(clone)", "").Trim();
+            GetComponent<TextMeshProUGUI>().text =name;
         }
     }
 }

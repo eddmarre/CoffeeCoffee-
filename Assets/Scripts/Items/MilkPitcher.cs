@@ -130,7 +130,14 @@ namespace CoffeeCoffee.Item
         }
         void FillCup(Collision2D cup)
         {
-            cup.gameObject.GetComponent<Cup>().FillCupMilk(CupInputMilk);
+            try
+            {
+                cup.gameObject.GetComponent<Cup>().FillCupMilk(CupInputMilk);
+            }
+            catch
+            {
+                Debug.LogWarning("Couldn't fill milk in cup", this);
+            }
         }
         private void FinishMilkPour(Collision2D o)
         {
@@ -150,12 +157,12 @@ namespace CoffeeCoffee.Item
         {
             return isFilled;
         }
-        
+
         public void SetMilkPitcherTemperature(string temp)
         {
             FindObjectOfType<Cup>().FillCupTemperature(temp);
         }
-        
+
         public void FillMilkPitcher()
         {
             animator.SetBool(FILL_PITCHER, true);
@@ -172,7 +179,14 @@ namespace CoffeeCoffee.Item
             pitcherSteam.gameObject.SetActive(true);
             pitcherSteam.transform.position = transform.position + new Vector3(xOffset, yOffset, 0);
             pitcherSteam.transform.SetParent(transform);
-            SetMilkPitcherTemperature(temperatureButton.GetTemperature());
+            try
+            {
+                SetMilkPitcherTemperature(temperatureButton.GetTemperature());
+            }
+            catch
+            {
+                Debug.LogWarning("Couldn't set Cup temperature", this);
+            }
             isNotSteamed = false;
         }
     }

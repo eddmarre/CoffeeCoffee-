@@ -13,10 +13,12 @@ namespace CoffeeCoffee.Syrup
         public enum SyrupFlavor { vanilla, caramel, hazelnut, classic, mocha };
         public SyrupFlavor syrupFlavor;
         public bool isUsed;
+        public GameObject syrupParticleEffect;
+        public Transform spawnLocation;
 
         const float LEVEL_CHANGE_DELAY = 1f;
 
-        
+
         new Collider2D collider2D;
         OrderDictionary orderDictionary = new OrderDictionary();
         Cup cup;
@@ -58,6 +60,8 @@ namespace CoffeeCoffee.Syrup
         private void OnMouseDown()
         {
             isUsed = true;
+            var syrupPour = Instantiate(syrupParticleEffect, spawnLocation.position, Quaternion.identity);
+            Destroy(syrupPour, 2f);
             AddSyrupInCup();
             ChangeToEsspressoMachineScene();
         }

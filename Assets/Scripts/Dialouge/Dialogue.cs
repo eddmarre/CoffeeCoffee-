@@ -8,21 +8,23 @@ namespace CoffeeCoffee.Dialogue
 {
     public class Dialogue : MonoBehaviour
     {
-        const float SENTENCE_TYPING_TIMER = .05f;
+        const float SENTENCE_TYPING_TIMER = .04f;
         TextMeshProUGUI dialougeText;
         People person;
         WaitForSeconds typingDelay;
+        string personOrder;
 
         private void Awake()
         {
             typingDelay = new WaitForSeconds(SENTENCE_TYPING_TIMER);
-            person = GetComponentInParent<People>();
             dialougeText = GetComponent<TextMeshProUGUI>();
+            person = FindObjectOfType<People>();
         }
-        
+
         public void CreateOrderDialouge()
         {
-            StartCoroutine(TypeSentence(person.GetOrder()));
+            personOrder = person.GetOrder();
+            StartCoroutine(TypeSentence(personOrder));
         }
 
         IEnumerator TypeSentence(string d)

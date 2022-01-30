@@ -16,14 +16,14 @@ public class GameManager : MonoBehaviour
     public Order customerOrder;
     public Order playerInputedOrder;
     public Order FinalCupOrder;
-    public Cup cupCopy;
-    public People[] peoples;
+    public List<People> gmPeople;
+    public List<People> currentPeople;
 
     private void Awake()
     {
         CreateInstance();
-        peoples = FindObjectsOfType<People>();
     }
+
     private void CreateInstance()
     {
         if (_instance != null && _instance != this)
@@ -37,9 +37,10 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+
     private void Update()
     {
-        DeactivateNonActiveCustomersAfterOrder();
+       // DeactivateNonActiveCustomersAfterOrder();
         ReviewPlayerMonitorInput();
         ReviewPlayerCup();
     }
@@ -48,9 +49,9 @@ public class GameManager : MonoBehaviour
         if (customerOrder != null)
         {
             Debug.Log(customerOrder.ToString() + " customer order", this);
-            if (peoples != null)
+            if (gmPeople != null)
             {
-                foreach (People person in peoples)
+                foreach (People person in gmPeople)
                 {
                     if (person.canBeHelped == true)
                     {
@@ -91,6 +92,12 @@ public class GameManager : MonoBehaviour
     public Order GetFinalCupOrder()
     {
         return FinalCupOrder;
+    }
+    public void ResetOrders()
+    {
+        customerOrder = null;
+        playerInputedOrder = null;
+        FinalCupOrder = null;
     }
 }
 

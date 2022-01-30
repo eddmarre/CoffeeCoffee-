@@ -8,6 +8,8 @@ namespace CoffeeCoffee.EspressoMahchineButtons
     {
 
         public GameObject animatedLever;
+        public GameObject milkSteamParticleEffect;
+        public Transform spawnLocation;
         const float WRONG_ITEM_SECONDS_TO_WAIT = .1f;
         const float PITCHER_RESTART_SECONDS_TO_WAIT = 2f;
         const float DELAYED_LEVER_UP_TIMER = .5f;
@@ -23,6 +25,8 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         WaitForSeconds delayedLeverTimer;
 
         TemperatureButton temperatureButton;
+
+        GameObject milkParticles;
 
         float increaseBy = 10f;
         float decreaseBy = -10f;
@@ -101,12 +105,15 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         private void FinishSteaming()
         {
             milkPitcher.FinishedSteamingMilk();
+            float destroyTimer = .5f;
+            Destroy(milkParticles, destroyTimer);
             milkPitcherTrigger.ResetMilkPitcherTrigger();
         }
 
         private void SteamMilk()
         {
             milkPitcher.BeginSteamingMilk();
+            milkParticles = Instantiate(milkSteamParticleEffect, spawnLocation.position, Quaternion.identity);
         }
         private void UnacceptedItemFunctionality()
         {
