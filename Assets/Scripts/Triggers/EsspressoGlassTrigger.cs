@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CoffeeCoffee.Functionality;
 using CoffeeCoffee.Item;
+using CoffeeCoffee.EspressoMahchineButtons;
 
 namespace CoffeeCoffee.Triggers
 {
@@ -15,6 +16,7 @@ namespace CoffeeCoffee.Triggers
         EsspressoGlass returnableESPGlass;
         Triggerable triggerable;
         WaitForSeconds occupiedTimer;
+        ExtractEspressoButton pullButton;
 
         bool isEsspressoGlass;
 
@@ -22,15 +24,22 @@ namespace CoffeeCoffee.Triggers
         {
             triggerable = GetComponent<Triggerable>();
             occupiedTimer = new WaitForSeconds(TIMER);
-        }
 
+            pullButton=FindObjectOfType<ExtractEspressoButton>();
+        }
+        private void Start()
+        {
+            pullButton.gameObject.SetActive(false);
+        }
         private void OnTriggerEnter2D(Collider2D other)
         {
             StopAllCoroutines();
+            StartCoroutine(PullButtonDelay());
             if (triggerable.GetIsOccupied()) { return; }
             if (other.GetComponent<DragAndDrop>())
             {
                 SetDragAndDrop(other.GetComponent<DragAndDrop>());
+                other.GetComponent<DragAndDrop>().StopDragMovement();
                 StartCoroutine(SetOccupiedTimer());
             }
             if (other.gameObject.GetComponent<EsspressoGlass>())
@@ -39,11 +48,17 @@ namespace CoffeeCoffee.Triggers
                 isEsspressoGlass = true;
             }
         }
+        //Delay is necessary to allow time for enable/disable Collider2d
+        IEnumerator PullButtonDelay()
+        {
+            yield return occupiedTimer;
+            pullButton.gameObject.SetActive(true);
+        }
         void SetDragAndDrop(DragAndDrop dnd)
         {
             returnableDnd = dnd;
         }
-        
+
         IEnumerator SetOccupiedTimer()
         {
             yield return occupiedTimer;

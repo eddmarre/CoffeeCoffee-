@@ -24,7 +24,6 @@ namespace CoffeeCoffee.Triggers
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            StopAllCoroutines();
             if (triggerable.GetIsOccupied()) { return; }
             if (other.GetComponent<DragAndDrop>())
             {
@@ -40,7 +39,7 @@ namespace CoffeeCoffee.Triggers
         {
             returnableDnd = dnd;
         }
-        
+
         void SetCup(Cup cup)
         {
             returnableCup = cup;

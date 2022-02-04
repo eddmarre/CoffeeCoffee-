@@ -7,21 +7,29 @@ namespace CoffeeCoffee.MiniFridge
     {
         const string OPEN_DOOR_ANIMATION = "OpenDoor";
         Animator animator;
-        [SerializeField] GameObject itemInFridge;
+        [SerializeField] GameObject[] itemInFridge;
         private void Awake()
         {
             animator = GetComponent<Animator>();
-            itemInFridge.SetActive(false);
+            foreach (GameObject milk in itemInFridge)
+            {
+                milk.SetActive(false);
+            }
+
         }
         private void OnMouseDown()
         {
             OpenDoor();
-            itemInFridge.SetActive(true);
+            foreach (GameObject milk in itemInFridge)
+            {
+                milk.SetActive(true);
+            }
         }
 
         private void OpenDoor()
         {
             animator.SetBool(OPEN_DOOR_ANIMATION, true);
+            GetComponent<Collider2D>().enabled=false;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace CoffeeCoffee.Item
         Transform originalParent;
         WaitForSeconds locationSwapTimer;
         WaitForSeconds animationWaitTimer;
+        new Rigidbody2D rigidbody2D;
 
         float xPosition = 50f;
         float yPosition = 120f;
@@ -24,19 +25,20 @@ namespace CoffeeCoffee.Item
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            rigidbody2D = GetComponent<Rigidbody2D>();
             originalParent = transform.parent;
             locationSwapTimer = new WaitForSeconds(LOCATION_TIMER);
             animationWaitTimer = new WaitForSeconds(ANIMATION_TIMER);
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            StopAllCoroutines();
-            if (other.gameObject.GetComponent<MilkPitcher>() && !other.gameObject.GetComponent<MilkPitcher>().IsFilled())
-            {
-                lockPosition(other);
-            }
-        }
+        /* private void OnCollisionEnter2D(Collision2D other)
+         {
+             StopAllCoroutines();
+             if (other.gameObject.GetComponent<MilkPitcher>() && !other.gameObject.GetComponent<MilkPitcher>().IsFilled())
+             {
+                 lockPosition(other);
+             }
+         }*/
         private void OnCollisionStay2D(Collision2D other)
         {
             if (other.gameObject.GetComponent<MilkPitcher>() && !other.gameObject.GetComponent<MilkPitcher>().IsFilled())
@@ -48,7 +50,8 @@ namespace CoffeeCoffee.Item
         }
         private void lockPosition(Collision2D other)
         {
-            transform.position = other.gameObject.transform.position + new Vector3(xPosition, yPosition, 0);
+            //transform.position = other.gameObject.transform.position + new Vector3(xPosition, yPosition, 0);
+            rigidbody2D.position = other.gameObject.transform.position + new Vector3(xPosition, yPosition, 0);
         }
 
         IEnumerator WaitForLocationSwap(Collision2D o)
@@ -59,7 +62,8 @@ namespace CoffeeCoffee.Item
         }
         private void StartMilkPour()
         {
-            gameObject.GetComponent<Collider2D>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            rigidbody2D.freezeRotation=false;
             animator.SetBool(POUR_MILK_ANIMATION, true);
         }
 
@@ -80,8 +84,10 @@ namespace CoffeeCoffee.Item
             o.gameObject.transform.DetachChildren();
             transform.SetParent(originalParent);
             //respawn to the right of pitcher
-            transform.position = FindObjectOfType<MilkPitcher>().transform.position + new Vector3(xOffset, 0, 0);
-            gameObject.GetComponent<Collider2D>().enabled = true;
+            var mPitcher = FindObjectOfType<MilkPitcher>();
+            rigidbody2D.position = mPitcher.GetComponent<Rigidbody2D>().position + new Vector2(xOffset, 0);
+            GetComponent<Collider2D>().enabled = true;
+            rigidbody2D.freezeRotation = true;
         }
     }
 }

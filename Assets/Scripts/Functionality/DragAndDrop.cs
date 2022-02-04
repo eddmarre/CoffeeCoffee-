@@ -19,13 +19,19 @@ namespace CoffeeCoffee.Functionality
         Triggerable triggerable;
 
         float mZCoord;
+        new Rigidbody2D rigidbody2D;
+        float gravityScale;
+
+        bool canMove = true;
         private void Awake()
         {
             main = Camera.main;
             collider2D = GetComponent<Collider2D>();
+            rigidbody2D = GetComponent<Rigidbody2D>();
+            gravityScale = rigidbody2D.gravityScale;
             delayTimer = new WaitForSeconds(disableClickDelayTime);
         }
-        
+
         private void OnMouseDown()
         {
             GenerateOffSet();
@@ -37,20 +43,12 @@ namespace CoffeeCoffee.Functionality
         }
         private void OnMouseDrag()
         {
-            MoveObject();
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (!other.GetComponent<Triggerable>().GetIsOccupied())
+            if (canMove)
             {
-                LockPosition(other);
-            }
-            else
-            {
-                Debug.Log("is occupied", this);
+                MoveObject();
             }
         }
+        
         private void OnTriggerStay2D(Collider2D other)
         {
             if (!other.GetComponent<Triggerable>().GetIsOccupied())
@@ -62,22 +60,20 @@ namespace CoffeeCoffee.Functionality
                 }
             }
         }
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            StopAllCoroutines();
-        }
-
         private void LockPosition(Collider2D other)
         {
-            transform.position = other.transform.position;
+            rigidbody2D.position = other.transform.position;
         }
         public void EnableClick()
         {
             collider2D.enabled = true;
+            canMove = true;
+            rigidbody2D.gravityScale = gravityScale;
         }
         private void DisableClick()
         {
             collider2D.enabled = false;
+            rigidbody2D.gravityScale = 0;
         }
         IEnumerator DisableClickTimer()
         {
@@ -86,13 +82,14 @@ namespace CoffeeCoffee.Functionality
         }
         private void GenerateOffSet()
         {
-            mZCoord = main.WorldToScreenPoint(transform.position).z;
+            mZCoord = main.WorldToScreenPoint(rigidbody2D.position).z;
             mOffset = transform.position - GetMouseWorldPos();
         }
-        private Vector3 MoveObject()
+        private void MoveObject()
         {
             transform.rotation = Quaternion.identity;
-            return transform.position = GetMouseWorldPos() + mOffset;
+            Vector2 mousePosition = GetMouseWorldPos() + mOffset;
+            rigidbody2D.MovePosition(mousePosition);
         }
         Vector3 GetMouseWorldPos()
         {
@@ -105,6 +102,11 @@ namespace CoffeeCoffee.Functionality
             Color tmp = GetComponent<SpriteRenderer>().color;
             tmp.a = newAlpha;
             GetComponent<SpriteRenderer>().color = tmp;
+        }
+
+        public void StopDragMovement()
+        {
+            canMove = false;
         }
     }
 }

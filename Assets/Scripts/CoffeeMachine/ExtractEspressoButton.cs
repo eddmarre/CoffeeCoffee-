@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using CoffeeCoffee.Triggers;
 using CoffeeCoffee.Item;
+using CoffeeCoffee.Functionality;
 
 namespace CoffeeCoffee.EspressoMahchineButtons
 {
@@ -45,7 +46,9 @@ namespace CoffeeCoffee.EspressoMahchineButtons
                     ChangeEsspressoSize();
                     ChangeEsspressoType();
                     PourEsspresso();
-                    AllowForReplacableItems();
+                    esspressoGlassTrigger.GetDragAndDrop().EnableClick();
+                    esspressoGlassTrigger.gameObject.SetActive(false);
+                    gameObject.SetActive(false);
                 }
                 else
                 {
@@ -62,7 +65,6 @@ namespace CoffeeCoffee.EspressoMahchineButtons
                 {
                     Debug.Log("No Objects in Trigger", this);
                 }
-
             }
         }
 
@@ -133,7 +135,14 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         IEnumerator RestartGlassTriggerTimer()
         {
             yield return glassRestartWaitTimer;
-            esspressoGlassTrigger.gameObject.SetActive(true);
+            try
+            {
+                esspressoGlassTrigger.gameObject.SetActive(true);
+            }
+            catch
+            {
+                Debug.Log("Glass Trigger Gone", this);
+            }
         }
 
         IEnumerator WrongItemAnimation(Transform t)

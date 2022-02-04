@@ -40,7 +40,6 @@ namespace CoffeeCoffee.Item
             SetDictionaryCupSizes();
             canPerform = true;
         }
-
         private void CreateCurrentCupOrder()
         {
             if (gameManager.FinalCupOrder != null)
@@ -55,7 +54,6 @@ namespace CoffeeCoffee.Item
 
         private void Update()
         {
-
             canPerform = SetDictionaryLatte(canPerform);
             canPerform = SetDictionaryMachiatto(canPerform);
             ChangeSceneAfterCupFill();

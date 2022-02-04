@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6645024226070568028}
   - component: {fileID: 6645024226070568031}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LampLight (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_UseNormalMap: 0
   m_LightOrder: 1
   m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0.052
+  m_ShadowIntensity: 0
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6645024226312243606}
   - component: {fileID: 6645024226312243609}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LampLight (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_UseNormalMap: 0
   m_LightOrder: 1
   m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0.052
+  m_ShadowIntensity: 0
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
@@ -187,7 +187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6645024227099763117}
   - component: {fileID: 6645024227099763116}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LampLight (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_UseNormalMap: 0
   m_LightOrder: 1
   m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0.052
+  m_ShadowIntensity: 0
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360

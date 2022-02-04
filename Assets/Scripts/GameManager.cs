@@ -16,8 +16,6 @@ public class GameManager : MonoBehaviour
     public Order customerOrder;
     public Order playerInputedOrder;
     public Order FinalCupOrder;
-    public List<People> gmPeople;
-    public List<People> currentPeople;
 
     private void Awake()
     {
@@ -37,67 +35,95 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-
-    private void Update()
+    public float ReviewPlayerMonitorInput()
     {
-       // DeactivateNonActiveCustomersAfterOrder();
-        ReviewPlayerMonitorInput();
-        ReviewPlayerCup();
-    }
-    private void DeactivateNonActiveCustomersAfterOrder()
-    {
-        if (customerOrder != null)
-        {
-            Debug.Log(customerOrder.ToString() + " customer order", this);
-            if (gmPeople != null)
-            {
-                foreach (People person in gmPeople)
-                {
-                    if (person.canBeHelped == true)
-                    {
-                        person.ChangeSpriteInactive();
-                    }
-                }
-            }
-        }
+        float finalScore = createFinalScore();
+        return finalScore;
     }
 
-    private void ReviewPlayerMonitorInput()
+    private float createFinalScore()
     {
-        if (playerInputedOrder != null && customerOrder != null && customerOrder.Equals(playerInputedOrder))
+        float finalScore = 0;
+        float increaseAmount = 100 / 7;
+        if (playerInputedOrder.size == customerOrder.size)
         {
-            if (FindObjectOfType<ScoreManager>())
-            {
-                ScoreManager score = FindObjectOfType<ScoreManager>();
-                score.SetScoreText("999");
-            }
-            Debug.Log("they match woohoo", this);
+            finalScore += increaseAmount;
         }
+        if (playerInputedOrder.flavor == customerOrder.flavor)
+        {
+            finalScore += increaseAmount;
+        }
+        if (playerInputedOrder.milk == customerOrder.milk)
+        {
+            finalScore += increaseAmount;
+        }
+        if (playerInputedOrder.esspresso == customerOrder.esspresso)
+        {
+            finalScore += increaseAmount;
+        }
+        if (playerInputedOrder.beverage == customerOrder.beverage)
+        {
+            finalScore += increaseAmount;
+        }
+        if (playerInputedOrder.temperature == customerOrder.temperature)
+        {
+            finalScore += increaseAmount;
+        }
+        if (playerInputedOrder.shot == customerOrder.shot)
+        {
+            finalScore += increaseAmount;
+        }
+
+        return finalScore;
     }
 
-    private void ReviewPlayerCup()
+    public float ReviewPlayerCup()
     {
-        if (FinalCupOrder != null && customerOrder != null && customerOrder.Equals(FinalCupOrder))
+
+        float finalTipAmount = createTips();
+        return finalTipAmount;
+
+    }
+
+    private float createTips()
+    {
+        float increasePrecentage = 0;
+        float increaseAmount = 100 / 7;
+        if (FinalCupOrder.size == customerOrder.size)
         {
-            //reward player
-            if (FindObjectOfType<ScoreManager>())
-            {
-                ScoreManager score = FindObjectOfType<ScoreManager>();
-                score.SetTipText("9.99");
-            }
-            Debug.Log("HEY THATS MY LATTE", this);
+            increasePrecentage += increaseAmount;
         }
+        if (FinalCupOrder.flavor == customerOrder.flavor)
+        {
+            increasePrecentage += increaseAmount;
+        }
+        if (FinalCupOrder.milk == customerOrder.milk)
+        {
+            increasePrecentage += increaseAmount;
+        }
+        if (FinalCupOrder.esspresso == customerOrder.esspresso)
+        {
+            increasePrecentage += increaseAmount;
+        }
+        if (FinalCupOrder.beverage == customerOrder.beverage)
+        {
+            increasePrecentage += increaseAmount;
+        }
+        if (FinalCupOrder.temperature == customerOrder.temperature)
+        {
+            increasePrecentage += increaseAmount;
+        }
+        if (FinalCupOrder.shot == customerOrder.shot)
+        {
+            increasePrecentage += increaseAmount;
+        }
+
+        return increasePrecentage;
     }
 
     public Order GetFinalCupOrder()
     {
         return FinalCupOrder;
-    }
-    public void ResetOrders()
-    {
-        customerOrder = null;
-        playerInputedOrder = null;
-        FinalCupOrder = null;
     }
 }
 

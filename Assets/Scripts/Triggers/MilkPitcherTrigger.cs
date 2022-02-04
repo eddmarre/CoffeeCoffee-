@@ -78,5 +78,10 @@ namespace CoffeeCoffee.Triggers
         {
             return isMilkPitcher;
         }
+
+        public void ResetMilkPitcher()
+        {
+            isMilkPitcher=false;
+        }
     }
 }

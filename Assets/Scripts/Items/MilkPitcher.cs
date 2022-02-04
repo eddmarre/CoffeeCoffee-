@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CoffeeCoffee.Dialogue;
 using CoffeeCoffee.EspressoMahchineButtons;
+using CoffeeCoffee.Triggers;
 
 namespace CoffeeCoffee.Item
 {
@@ -26,6 +27,7 @@ namespace CoffeeCoffee.Item
 
         WaitForSeconds locationSwapTimer;
         WaitForSeconds animationWaitTimer;
+        new Rigidbody2D rigidbody2D;
 
 
         enum MilkType { none, nonFat, twoPercent, wholeMilk };
@@ -45,6 +47,7 @@ namespace CoffeeCoffee.Item
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            rigidbody2D = GetComponent<Rigidbody2D>();
             milkType = MilkType.none;
             pitcherSteam.SetActive(false);
             locationSwapTimer = new WaitForSeconds(LOCATION_TIMER);
@@ -67,7 +70,6 @@ namespace CoffeeCoffee.Item
                 {
                     milkType = MilkType.wholeMilk;
                 }
-                Debug.Log("this milk is " + milkType, this);
             }
         }
         private void OnCollisionEnter2D(Collision2D other)
@@ -89,7 +91,7 @@ namespace CoffeeCoffee.Item
         }
         private void lockPosition(Collision2D other)
         {
-            transform.position = other.gameObject.transform.position + new Vector3(xPosition, yPosition, 0);
+            rigidbody2D.position = other.gameObject.transform.position + new Vector3(xPosition, yPosition, 0);
         }
         IEnumerator WaitForLocationSwap(Collision2D o)
         {
@@ -115,7 +117,7 @@ namespace CoffeeCoffee.Item
         }
         private void StartMilkPour()
         {
-            gameObject.GetComponent<Collider2D>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
             animator.SetTrigger(POUR_PITCHER_TRIGGER);
         }
 
@@ -132,7 +134,7 @@ namespace CoffeeCoffee.Item
         {
             try
             {
-                cup.gameObject.GetComponent<Cup>().FillCupMilk(CupInputMilk);
+                FindObjectOfType<Cup>().FillCupMilk(CupInputMilk);
             }
             catch
             {
@@ -143,8 +145,8 @@ namespace CoffeeCoffee.Item
         {
             //respawn to the right of pitcher
             pitcherSteam.SetActive(false);
-            transform.position = o.transform.position + new Vector3(xOffsetReset, 0, 0);
-            gameObject.GetComponent<Collider2D>().enabled = true;
+            rigidbody2D.position = o.transform.position + new Vector3(xOffsetReset, 0, 0);
+            GetComponent<Collider2D>().enabled = true;
             gameObject.SetActive(false);
         }
 

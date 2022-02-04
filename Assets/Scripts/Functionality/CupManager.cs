@@ -9,7 +9,7 @@ namespace CoffeeCoffee.Functionality
         GameManager gameManager;
         Cup thisCup;
         DragAndDrop dnd;
-        Rigidbody2D rigidbody2D;
+        new Rigidbody2D rigidbody2D;
         private void Awake()
         {
             thisCup = GetComponentInChildren<Cup>();

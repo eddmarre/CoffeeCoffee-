@@ -42,3 +42,36 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Person
+    uniqueID: 1914298259
+    locked: 0
+  - name: Counter
+    uniqueID: 1535667767
+    locked: 0
+  - name: Dialouge
+    uniqueID: 264498907
+    locked: 0
+  - name: Monitor
+    uniqueID: 143968833
+    locked: 0
+  - name: Syrups
+    uniqueID: 772104251
+    locked: 0
+  - name: CupCady
+    uniqueID: 1839141809
+    locked: 0
+  - name: EsspressoMachine
+    uniqueID: 721209163
+    locked: 0
+  - name: Fridge
+    uniqueID: 681271767
+    locked: 0
+  - name: Items
+    uniqueID: 2500016229
+    locked: 0
+  - name: Particles
+    uniqueID: 2409839751
+    locked: 0
+  - name: UI
+    uniqueID: 4009448047
+    locked: 0

@@ -5,7 +5,6 @@ namespace CoffeeCoffee.Person
 {
     public class PeopleController : MonoBehaviour
     {
-        GameManager gameManager;
         public GameObject[] RandomPerson;
         public GameObject spawnLocation;
         public GameObject Canvas;
@@ -27,28 +26,6 @@ namespace CoffeeCoffee.Person
             else if (randomIndex == 2)
             {
                 person.name = RandomPerson[2].gameObject.name;
-            }
-        }
-        private void Start()
-        {
-            gameManager = GameManager.Instance;
-            //gameManager.customerOrder =new Dialogue.Order();
-           // gameManager.playerInputedOrder = new Dialogue.Order();
-           // gameManager.FinalCupOrder = new Dialogue.Order();
-        }
-
-        public void DisablePerson()
-        {
-            foreach (People person in gameManager.currentPeople)
-            {
-                if (gameManager.gmPeople.Contains(person))
-                {
-                    person.gameObject.SetActive(true);
-                }
-                else
-                {
-                    person.gameObject.SetActive(true);
-                }
             }
         }
 

@@ -63,7 +63,9 @@ namespace CoffeeCoffee.EspressoMahchineButtons
                         else
                         {
                             FinishSteaming();
-                            AllowForReplacableItems();
+                            milkPitcherTrigger.GetDragAndDrop().EnableClick();
+                            milkPitcherTrigger.gameObject.SetActive(false);
+                            StartCoroutine(DelayedLeverDisable());
                         }
                     }
                     else
@@ -71,7 +73,6 @@ namespace CoffeeCoffee.EspressoMahchineButtons
                         StartCoroutine(DelayedLeverUp());
                         UnacceptedItemFunctionality();
                     }
-
                 }
                 else
                 {
@@ -86,7 +87,11 @@ namespace CoffeeCoffee.EspressoMahchineButtons
                     }
                 }
             }
-
+        }
+        IEnumerator DelayedLeverDisable()
+        {
+            yield return new WaitForSeconds(2f);
+            gameObject.SetActive(false);
         }
 
         IEnumerator ResetIsNotSpammingCheck()
@@ -146,12 +151,20 @@ namespace CoffeeCoffee.EspressoMahchineButtons
             milkPitcherTrigger.GetDragAndDrop().EnableClick();
             StartCoroutine(RestartPitcherTriggerTimer());
             milkPitcherTrigger.NoLongerOccupied();
+            milkPitcherTrigger.ResetMilkPitcher();
         }
 
         IEnumerator RestartPitcherTriggerTimer()
         {
             yield return pitcherRestartWaitTimer;
-            milkPitcherTrigger.gameObject.SetActive(true);
+            try
+            {
+                milkPitcherTrigger.gameObject.SetActive(true);
+            }
+            catch
+            {
+                Debug.Log("no pitcher trigger", this);
+            }
         }
         IEnumerator PullLeverDown()
         {

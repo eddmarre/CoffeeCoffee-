@@ -25,7 +25,6 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         private void OnMouseDown()
         {
             SetTemperature();
-            Debug.Log(CupInputTemperature, this);
         }
 
         private void SetTemperature()

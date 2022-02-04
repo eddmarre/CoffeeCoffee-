@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CoffeeCoffee.Functionality;
 using UnityEngine;
 using CoffeeCoffee.Dialogue;
+using CoffeeCoffee.Triggers;
 
 namespace CoffeeCoffee.Item
 
@@ -31,6 +32,7 @@ namespace CoffeeCoffee.Item
         WaitForSeconds locationSwapTimer;
         WaitForSeconds animationWaitTimer;
         Transform originalParent;
+        new Rigidbody2D rigidbody2D;
 
         bool isEmpty = true;
         int empty = 0, full = 1;
@@ -42,6 +44,7 @@ namespace CoffeeCoffee.Item
         {
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+            rigidbody2D = GetComponent<Rigidbody2D>();
 
             esspresso = Esspresso.none;
             esspressoSize = EsspressoSize.none;
@@ -71,7 +74,7 @@ namespace CoffeeCoffee.Item
 
         private void lockPosition(Collision2D other)
         {
-            transform.position = other.gameObject.transform.position + new Vector3(xPosition, yPosition, 0);
+            rigidbody2D.position = other.gameObject.transform.position + new Vector3(xPosition, yPosition, 0);
         }
 
         IEnumerator WaitForLocationSwap(Collision2D o)
@@ -82,7 +85,7 @@ namespace CoffeeCoffee.Item
         }
         private void StartEsspressoPour()
         {
-            gameObject.GetComponent<Collider2D>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
             animator.SetTrigger(POUR_GLASS_TRIGGER);
         }
         IEnumerator WaitForAnimation(Collision2D o)
@@ -99,7 +102,7 @@ namespace CoffeeCoffee.Item
         {
             try
             {
-                cup.gameObject.GetComponent<Cup>().FillCupEsspresso(CupInputEsspresso, CupInputShots);
+                FindObjectOfType<Cup>().FillCupEsspresso(CupInputEsspresso, CupInputShots);
             }
             catch
             {
@@ -109,8 +112,8 @@ namespace CoffeeCoffee.Item
         private void FinishEsspressoPour(Collision2D o)
         {
             //respawn to the right of pitcher
-            transform.position = o.transform.position + new Vector3(xOffset, 0, 0);
-            gameObject.GetComponent<Collider2D>().enabled = true;
+            rigidbody2D.position = o.transform.position + new Vector3(xOffset, 0, 0);
+            GetComponent<Collider2D>().enabled = true;
         }
 
         public void PourEsspressoIntoShotGlass()
@@ -120,6 +123,7 @@ namespace CoffeeCoffee.Item
             SetDictionaryEsspressoType();
             SetDictionaryEsspressoShots();
             setSprite();
+            GetComponent<Collider2D>().enabled=true;
         }
         private void SetDictionaryEsspressoShots()
         {
