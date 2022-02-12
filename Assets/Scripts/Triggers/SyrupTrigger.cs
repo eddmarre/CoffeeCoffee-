@@ -11,7 +11,7 @@ namespace CoffeeCoffee.Triggers
     [RequireComponent(typeof(Triggerable))]
     public class SyrupTrigger : MonoBehaviour
     {
-        public Syrup.Syrup syrup;
+        [SerializeField]  Syrup.Syrup syrup;
 
         DragAndDrop returnableDnd;
         Cup returnableCup;

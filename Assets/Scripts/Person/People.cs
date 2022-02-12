@@ -8,21 +8,22 @@ namespace CoffeeCoffee.Person
     {
         [Range(0, 2)] public int PersonBuildIndex;
         float personWalkSpeed = 2f;
-        public bool canBeHelped { get; set; }
+        bool canBeHelped;
 
         const float CLOSE_TEXT_BOX_TIMER = 5f;
         const string REACHED_DESTINATION_TRIGGER = "ReachedDestination";
 
         [SerializeField] string greeting = "Hello there, I would like a";
 
-        OrderDialouge orderDialouge;
-        GameManager gameManager;
+        OrderDialouge orderDialouge = new OrderDialouge();
         WaitForSeconds closeTextDelay;
         GameObject textBox;
         Dialogue.Dialogue dialogue;
         Color originalSpriteColor;
         Transform moveTolocation;
         bool isFirstTimePlacingOrder;
+
+        [SerializeField] CupOrderManagerScriptableObject cupOrderManager;
 
         private void Awake()
         {
@@ -35,11 +36,9 @@ namespace CoffeeCoffee.Person
             moveTolocation = FindObjectOfType<MoveLocation>().transform;
 
             closeTextDelay = new WaitForSeconds(CLOSE_TEXT_BOX_TIMER);
-            orderDialouge = new OrderDialouge();
         }
         private void Start()
         {
-            gameManager = GameManager.Instance;
 
             textBox.SetActive(false);
             Vector2 location = new Vector2(moveTolocation.position.x, moveTolocation.position.y);
@@ -62,7 +61,7 @@ namespace CoffeeCoffee.Person
         }
         private void OnMouseDown()
         {
-            if (!canBeHelped && gameManager.customerOrder != null) { return; }
+            if (!canBeHelped && cupOrderManager.customerOrder != null) { return; }
             textBox.SetActive(true);
             FindObjectOfType<Name>().SetName();
             if (isFirstTimePlacingOrder)
@@ -104,7 +103,10 @@ namespace CoffeeCoffee.Person
             int shotIndex = Random.Range(0, 2);
 
             string order = orderDialouge.CreateDialougeOrder(greeting, sizeIndex, shotIndex, flavorIndex, milkIndex, esspressoIndex, beverageIndex, temperaturIndex);
-            gameManager.customerOrder = orderDialouge.FindOrder();
+
+            cupOrderManager.customerOrderCreatedAction.AddListener(SetCustomerOrder);
+            cupOrderManager.SetCustomerOrder();
+
             return order;
         }
 
@@ -114,6 +116,14 @@ namespace CoffeeCoffee.Person
             GetComponent<SpriteRenderer>().color = Color.black;
         }
 
+        void SetCustomerOrder(CupOrderManagerScriptableObject manager)
+        {
+            manager.customerOrder = orderDialouge.GetDialougeOrder();
+        }
 
+        private void OnDisable()
+        {
+            cupOrderManager.customerOrderCreatedAction.RemoveListener(SetCustomerOrder);
+        }
     }
 }

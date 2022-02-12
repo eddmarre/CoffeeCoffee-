@@ -4,11 +4,9 @@ using UnityEngine;
 using CoffeeCoffee.Dialogue;
 namespace CoffeeCoffee.EspressoMahchineButtons
 {
-
-
     public class TemperatureButton : MonoBehaviour
     {
-        public GameObject[] tempSettings;
+        [SerializeField] GameObject[] tempSettings;
         const int regTemp = 0, warmTemp = 1, exHotTemp = 2;
         int clickCounter;
         OrderDictionary orderDictionary = new OrderDictionary();

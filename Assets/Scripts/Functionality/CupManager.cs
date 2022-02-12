@@ -6,22 +6,21 @@ namespace CoffeeCoffee.Functionality
 {
     public class CupManager : MonoBehaviour
     {
-        GameManager gameManager;
+        [SerializeField] CupOrderManagerScriptableObject cupOrderManager;
         Cup thisCup;
         DragAndDrop dnd;
         new Rigidbody2D rigidbody2D;
         private void Awake()
         {
             thisCup = GetComponentInChildren<Cup>();
-            dnd=GetComponentInChildren<DragAndDrop>();
-            rigidbody2D=GetComponentInChildren<Rigidbody2D>();
+            dnd = GetComponentInChildren<DragAndDrop>();
+            rigidbody2D = GetComponentInChildren<Rigidbody2D>();
         }
         private void Start()
         {
-            gameManager = GameManager.Instance;
             Destroy(dnd);
-            rigidbody2D.freezeRotation=true;
-            thisCup.CupOrder = gameManager.GetFinalCupOrder();
+            rigidbody2D.freezeRotation = true;
+            thisCup.CupOrder = cupOrderManager.FinalCupOrder;
         }
     }
 }

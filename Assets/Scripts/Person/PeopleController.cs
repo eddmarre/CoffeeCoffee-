@@ -5,14 +5,14 @@ namespace CoffeeCoffee.Person
 {
     public class PeopleController : MonoBehaviour
     {
-        public GameObject[] RandomPerson;
-        public GameObject spawnLocation;
-        public GameObject Canvas;
-        GameObject person;
+        [SerializeField] GameObject[] RandomPerson;
+        [SerializeField] GameObject spawnLocation;
+        [SerializeField] GameObject Canvas;
         private void Awake()
         {
             Canvas.SetActive(true);
             int randomIndex = Random.Range(0, 3);
+            GameObject person;
             person = Instantiate(RandomPerson[randomIndex], spawnLocation.transform.position, Quaternion.identity);
             person.transform.localScale = new Vector3(60f, 70f, 100f);
             if (randomIndex == 0)

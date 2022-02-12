@@ -9,8 +9,9 @@ namespace CoffeeCoffee.EspressoMahchineButtons
     class ExtractEspressoButton : MonoBehaviour
     {
 
-        public GameObject esspressoPourEffect;
-        public Transform spawnLocation;
+        [SerializeField] GameObject esspressoPourEffect;
+        [SerializeField] Transform spawnLocation;
+
         EsspressoGlassTrigger esspressoGlassTrigger;
         EsspressoGlass esspressoGlass;
         WaitForSeconds glassRestartWaitTimer;
@@ -27,9 +28,10 @@ namespace CoffeeCoffee.EspressoMahchineButtons
 
         private void Awake()
         {
-            esspressoGlassTrigger = FindObjectOfType<EsspressoGlassTrigger>();
             glassRestartWaitTimer = new WaitForSeconds(GLASS_RESTART_SECONDS_TO_WAIT);
             wrongItemWaitTimer = new WaitForSeconds(WRONG_ITEM_SECONDS_TO_WAIT);
+
+            esspressoGlassTrigger = FindObjectOfType<EsspressoGlassTrigger>();
             blondeButton = FindObjectOfType<BlondeSettingButton>();
             regularButton = FindObjectOfType<RegularSettingButton>();
             decafButton = FindObjectOfType<DecafSettingButton>();
@@ -37,16 +39,15 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         }
         private void OnMouseDown()
         {
-            StopAllCoroutines();
-            if (esspressoGlassTrigger.IsEsspressoGlass())
+            if (esspressoGlassTrigger.HasEsspressoGlass())
             {
-                esspressoGlass = esspressoGlassTrigger.GetEsspressoGlass();
+                esspressoGlass = FindObjectOfType<EsspressoGlass>();
                 if (esspressoGlass.IsEmpty())
                 {
                     ChangeEsspressoSize();
                     ChangeEsspressoType();
                     PourEsspresso();
-                    esspressoGlassTrigger.GetDragAndDrop().EnableClick();
+                    FindObjectOfType<EsspressoGlass>().EnableClick();
                     esspressoGlassTrigger.gameObject.SetActive(false);
                     gameObject.SetActive(false);
                 }
@@ -55,20 +56,9 @@ namespace CoffeeCoffee.EspressoMahchineButtons
                     UnacceptedItemFunctionality();
                 }
             }
-            else
-            {
-                try
-                {
-                    UnacceptedItemFunctionality();
-                }
-                catch
-                {
-                    Debug.Log("No Objects in Trigger", this);
-                }
-            }
         }
 
-        void ChangeEsspressoSize()
+        private void ChangeEsspressoSize()
         {
             if (shotSetting.GetIsDouble())
             {
@@ -98,7 +88,7 @@ namespace CoffeeCoffee.EspressoMahchineButtons
 
         private void UnacceptedItemFunctionality()
         {
-            Transform objectTransform = esspressoGlassTrigger.GetDragAndDrop().gameObject.transform;
+            Transform objectTransform = FindObjectOfType<EsspressoGlass>().transform;
             Vector2 originalPosition = objectTransform.position;
             StartCoroutine(WrongItemAnimation(objectTransform));
             ResetOriginalTransform(objectTransform, originalPosition);
@@ -113,7 +103,7 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         private void AllowForReplacableItems()
         {
             esspressoGlassTrigger.gameObject.SetActive(false);
-            esspressoGlassTrigger.GetDragAndDrop().EnableClick();
+            FindObjectOfType<EsspressoGlass>().EnableClick();
             StartCoroutine(RestartGlassTriggerTimer());
             esspressoGlassTrigger.NoLongerOccupied();
         }

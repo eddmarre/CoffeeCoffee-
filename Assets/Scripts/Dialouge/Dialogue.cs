@@ -12,7 +12,6 @@ namespace CoffeeCoffee.Dialogue
         TextMeshProUGUI dialougeText;
         People person;
         WaitForSeconds typingDelay;
-        string personOrder;
 
         private void Awake()
         {
@@ -23,7 +22,7 @@ namespace CoffeeCoffee.Dialogue
 
         public void CreateOrderDialouge()
         {
-            personOrder = person.GetOrder();
+            string personOrder = person.GetOrder();
             StartCoroutine(TypeSentence(personOrder));
         }
 

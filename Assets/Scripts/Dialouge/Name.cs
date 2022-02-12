@@ -11,8 +11,7 @@ namespace CoffeeCoffee.Dialogue
         public void SetName()
         {
             var name = FindObjectOfType<People>().gameObject.name;
-            //name.Replace("(clone)", "").Trim();
-            GetComponent<TextMeshProUGUI>().text =name;
+            GetComponent<TextMeshProUGUI>().text = name;
         }
     }
 }

@@ -14,9 +14,9 @@ namespace CoffeeCoffee.Monitor
         List<MonitorButton> monitorButtons = new List<MonitorButton>();
         OrderDictionary orderDictionary = new OrderDictionary();
         Order playerOrder;
-        GameManager gameManager;
         levelChanger levelChanger;
         WaitForSeconds changeLevelWaitTimer;
+        [SerializeField] CupOrderManagerScriptableObject cupOrderManager;
 
         string playerInputSize;
         string playerInputFlavor;
@@ -55,10 +55,6 @@ namespace CoffeeCoffee.Monitor
             return validTransforms.ToArray();
         }
 
-        private void Start()
-        {
-            gameManager = GameManager.Instance;
-        }
         public void CustomerPayment()
         {
             //gameobjects string name references
@@ -72,7 +68,7 @@ namespace CoffeeCoffee.Monitor
             const string DECAF = "DecafButton";
             const string BLONDE = "BlondeButton";
             const string LATTE = "LatteButton";
-            const string CAPPUCHINO = "CappuchinoButton";
+            const string MACHIATO = "MachiatoButton";
             const string AMERICANO = "AmericanoButton";
             const string WARM = "WarmButton";
             const string EXTRA_HOT = "ExtraHotButton";
@@ -86,14 +82,13 @@ namespace CoffeeCoffee.Monitor
             const string MOCHA = "MochaButton";
             const string CLASSIC = "ClassicButton";
 
-            GetButtonPressedInfo(SMALL, MEDIUM, LARGE, SINGLE, DOUBLE, TRIPLE, REGUALR, DECAF, BLONDE, LATTE, CAPPUCHINO, AMERICANO, WARM, EXTRA_HOT, REGULAR_TEMP, TWO_PERCENT, WHOLE, NONFAT, VANILLA, CARAMEL, HAZELNUT, MOCHA, CLASSIC);
+            GetButtonPressedInfo(SMALL, MEDIUM, LARGE, SINGLE, DOUBLE, TRIPLE, REGUALR, DECAF, BLONDE, LATTE, MACHIATO, AMERICANO, WARM, EXTRA_HOT, REGULAR_TEMP, TWO_PERCENT, WHOLE, NONFAT, VANILLA, CARAMEL, HAZELNUT, MOCHA, CLASSIC);
             CreateDefaultDataIfNecessary();
             CreateOrder();
-            //gameManager.gmPeople = null;
             ChangeSceneToSyrupStation();
         }
 
-        private void GetButtonPressedInfo(string SMALL, string MEDIUM, string LARGE, string SINGLE, string DOUBLE, string TRIPLE, string REGUALR, string DECAF, string BLONDE, string LATTE, string CAPPUCHINO, string AMERICANO, string WARM, string EXTRA_HOT, string REGULAR_TEMP, string TWO_PERCENT, string WHOLE, string NONFAT, string VANILLA, string CARAMEL, string HAZELNUT, string MOCHA, string CLASSIC)
+        private void GetButtonPressedInfo(string SMALL, string MEDIUM, string LARGE, string SINGLE, string DOUBLE, string TRIPLE, string REGUALR, string DECAF, string BLONDE, string LATTE, string MACHIATO, string AMERICANO, string WARM, string EXTRA_HOT, string REGULAR_TEMP, string TWO_PERCENT, string WHOLE, string NONFAT, string VANILLA, string CARAMEL, string HAZELNUT, string MOCHA, string CLASSIC)
         {
             foreach (MonitorButton mB in monitorButtons)
             {
@@ -104,7 +99,7 @@ namespace CoffeeCoffee.Monitor
                     {
                         playerInputBeverage = orderDictionary.beverages[0];
                     }
-                    if (mB.gameObject.name == CAPPUCHINO)
+                    if (mB.gameObject.name == MACHIATO)
                     {
                         playerInputBeverage = orderDictionary.beverages[1];
                     }
@@ -250,7 +245,19 @@ namespace CoffeeCoffee.Monitor
         {
             playerOrder = new Order(playerInputSize, playerInputShot, playerInputEsspresso,
             playerInputFlavor, playerInputBeverage, playerInputMilk, playerInputTemperature);
-            gameManager.playerInputedOrder = GetPlayerCreatedOrder();
+
+            cupOrderManager.playerInputedOrderCreatedAction.AddListener(SetPlayerInputedOrder);
+            cupOrderManager.SetPlayerInputedOrder();
+            //gameManager.playerInputedOrder = GetPlayerCreatedOrder();
+        }
+
+        private void OnDisable()
+        {
+            cupOrderManager.playerInputedOrderCreatedAction.RemoveListener(SetPlayerInputedOrder);
+        }
+        void SetPlayerInputedOrder(CupOrderManagerScriptableObject manager)
+        {
+            manager.playerInputedOrder = GetPlayerCreatedOrder();
         }
         private void ChangeSceneToSyrupStation()
         {
@@ -263,8 +270,8 @@ namespace CoffeeCoffee.Monitor
             yield return changeLevelWaitTimer;
             SceneManager.LoadScene(buildIndex);
         }
-        
-        public Order GetPlayerCreatedOrder()
+
+        Order GetPlayerCreatedOrder()
         {
             return playerOrder.GetOrder();
         }

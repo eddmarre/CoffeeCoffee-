@@ -6,9 +6,9 @@ namespace CoffeeCoffee.EspressoMahchineButtons
     public class BlondeSettingButton : MonoBehaviour
     {
 
-        public ChangeLightColor BlondeSettingLight;
-        public ChangeLightColor RegularSettingLight;
-        public ChangeLightColor DecafSettingLight;
+        [SerializeField] ChangeLightColor BlondeSettingLight;
+        [SerializeField] ChangeLightColor RegularSettingLight;
+        [SerializeField] ChangeLightColor DecafSettingLight;
         DecafSettingButton decafButton;
         RegularSettingButton regularButton;
         bool isActive = false;

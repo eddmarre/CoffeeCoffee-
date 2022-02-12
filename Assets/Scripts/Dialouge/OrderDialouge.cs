@@ -21,7 +21,7 @@ namespace CoffeeCoffee.Dialogue
             orderDictionary.flavors[_flavorIndex], orderDictionary.beverages[_beverageIndex], orderDictionary.milks[_milkIndex], orderDictionary.temperatures[_temperaure]);
         }
 
-        public Order FindOrder()
+        public Order GetDialougeOrder()
         {
             return thisOrder.GetOrder();
         }

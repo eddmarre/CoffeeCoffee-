@@ -48,38 +48,7 @@ namespace CoffeeCoffee.Functionality
                 MoveObject();
             }
         }
-        
-        private void OnTriggerStay2D(Collider2D other)
-        {
-            if (!other.GetComponent<Triggerable>().GetIsOccupied())
-            {
-                LockPosition(other);
-                if (!gameObject.GetComponent<Cup>())
-                {
-                    StartCoroutine(DisableClickTimer());
-                }
-            }
-        }
-        private void LockPosition(Collider2D other)
-        {
-            rigidbody2D.position = other.transform.position;
-        }
-        public void EnableClick()
-        {
-            collider2D.enabled = true;
-            canMove = true;
-            rigidbody2D.gravityScale = gravityScale;
-        }
-        private void DisableClick()
-        {
-            collider2D.enabled = false;
-            rigidbody2D.gravityScale = 0;
-        }
-        IEnumerator DisableClickTimer()
-        {
-            yield return delayTimer;
-            DisableClick();
-        }
+
         private void GenerateOffSet()
         {
             mZCoord = main.WorldToScreenPoint(rigidbody2D.position).z;
@@ -107,6 +76,10 @@ namespace CoffeeCoffee.Functionality
         public void StopDragMovement()
         {
             canMove = false;
+        }
+        public void AllowDragMovement()
+        {
+            canMove=true;
         }
     }
 }

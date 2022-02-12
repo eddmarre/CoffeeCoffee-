@@ -5,17 +5,18 @@ namespace CoffeeCoffee.EspressoMahchineButtons
     {
 
 
-        public ChangeLightColor BlondeSettingLight;
-        public ChangeLightColor RegularSettingLight;
-        public ChangeLightColor DecafSettingLight;
+        [SerializeField] ChangeLightColor BlondeSettingLight;
+        [SerializeField] ChangeLightColor RegularSettingLight;
+        [SerializeField] ChangeLightColor DecafSettingLight;
+        
         BlondeSettingButton blondeButton;
         RegularSettingButton regularButton;
         int green = 1, red = 0;
-        bool isActive=false;
+        bool isActive = false;
         private void Awake()
         {
-            blondeButton=FindObjectOfType<BlondeSettingButton>();
-            regularButton=FindObjectOfType<RegularSettingButton>();
+            blondeButton = FindObjectOfType<BlondeSettingButton>();
+            regularButton = FindObjectOfType<RegularSettingButton>();
         }
         private void OnMouseDown()
         {

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpawnParticleInAnimation : MonoBehaviour
 {
-    public GameObject esspressoPourParticle;
-    public Transform spawnLocation;
+    [SerializeField] GameObject esspressoPourParticle;
+    [SerializeField] Transform spawnLocation;
     public void SpawnParticleEffect()
     {
         var pour = Instantiate(esspressoPourParticle, spawnLocation.position, Quaternion.identity);

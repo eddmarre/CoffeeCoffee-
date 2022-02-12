@@ -5,7 +5,7 @@ namespace CoffeeCoffee.Monitor
 {
     public class Monitor : MonoBehaviour
     {
-        public GameObject FullScreenMonitor;
+        [SerializeField] GameObject FullScreenMonitor;
 
         private void Awake()
         {

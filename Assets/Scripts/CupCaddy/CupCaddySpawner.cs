@@ -8,11 +8,11 @@ namespace CoffeeCoffee.CupCaddy
 {
     public class CupCaddySpawner : MonoBehaviour
     {
-        public Cup cup;
-        public enum SpawnerSize { small, medium, large };
-        public SpawnerSize spawnCupSize;
+        [SerializeField]  Cup cup;
+        [SerializeField]  enum SpawnerSize { small, medium, large };
+        [SerializeField]  SpawnerSize spawnCupSize;
 
-        public bool canSpawn { get; set; }
+        public bool canSpawn { get; private set; }
         
         float yOffset = 150f;
         string CupInputSize;
@@ -38,19 +38,19 @@ namespace CoffeeCoffee.CupCaddy
             return thisCup;
         }
 
-        private void AssignCupSize(Cup thisCup)
+        private void AssignCupSize(Cup currentCup)
         {
             if (spawnCupSize == SpawnerSize.small)
             {
-                thisCup.cupSize = Cup.CupSize.small;
+                currentCup.cupSize = Cup.CupSize.small;
             }
             else if (spawnCupSize == SpawnerSize.medium)
             {
-                thisCup.cupSize = Cup.CupSize.medium;
+                currentCup.cupSize = Cup.CupSize.medium;
             }
             else if (spawnCupSize == SpawnerSize.large)
             {
-                thisCup.cupSize = Cup.CupSize.large;
+                currentCup.cupSize = Cup.CupSize.large;
             }
             canSpawn = false;
         }

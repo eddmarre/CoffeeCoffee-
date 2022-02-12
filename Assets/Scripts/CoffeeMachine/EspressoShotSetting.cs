@@ -3,7 +3,7 @@ namespace CoffeeCoffee.EspressoMahchineButtons
 {
     public class EspressoShotSetting : MonoBehaviour
     {
-        public GameObject[] ShotType;
+        [SerializeField] GameObject[] ShotType;
         int espSingle = 0, espDouble = 1;
         bool isDouble;
 

@@ -5,7 +5,7 @@ namespace CoffeeCoffee.EspressoMahchineButtons
 {
     public class ChangeLightColor : MonoBehaviour
     {
-        public Material[] materials;
+        [SerializeField] Material[] materials;
         SpriteRenderer spriteRenderer;
         private void Awake()
         {

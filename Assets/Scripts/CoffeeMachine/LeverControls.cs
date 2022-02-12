@@ -7,9 +7,10 @@ namespace CoffeeCoffee.EspressoMahchineButtons
     public class LeverControls : MonoBehaviour
     {
 
-        public GameObject animatedLever;
-        public GameObject milkSteamParticleEffect;
-        public Transform spawnLocation;
+        [SerializeField] GameObject animatedLever;
+        [SerializeField] GameObject milkSteamParticleEffect;
+        [SerializeField] Transform spawnLocation;
+
         const float WRONG_ITEM_SECONDS_TO_WAIT = .1f;
         const float PITCHER_RESTART_SECONDS_TO_WAIT = 2f;
         const float DELAYED_LEVER_UP_TIMER = .5f;
@@ -24,8 +25,6 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         WaitForSeconds wrongItemWaitTimer;
         WaitForSeconds delayedLeverTimer;
 
-        TemperatureButton temperatureButton;
-
         GameObject milkParticles;
 
         float increaseBy = 10f;
@@ -36,7 +35,6 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         private void Awake()
         {
             milkPitcherTrigger = FindObjectOfType<MilkPitcherTrigger>();
-            temperatureButton = FindObjectOfType<TemperatureButton>();
 
             LeverTimer = new WaitForSeconds(TIME);
             pitcherRestartWaitTimer = new WaitForSeconds(PITCHER_RESTART_SECONDS_TO_WAIT);
@@ -47,66 +45,66 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         {
             if (isNotSpamming)
             {
-                StopAllCoroutines();
-                isNotSpamming = false;
-                StartCoroutine(ResetIsNotSpammingCheck());
+                SpamCheck();
+
                 var pullLeverUpOrDown = isPulled ? StartCoroutine(PullLeverUP()) : StartCoroutine(PullLeverDown());
-                if (milkPitcherTrigger.IsMilkPitcher())
-                {
-                    milkPitcher = milkPitcherTrigger.GetMilkPitcher();
-                    if (milkPitcher.IsNotStreamed() && milkPitcher.IsFilled())
-                    {
-                        if (isPulled)
-                        {
-                            SteamMilk();
-                        }
-                        else
-                        {
-                            FinishSteaming();
-                            milkPitcherTrigger.GetDragAndDrop().EnableClick();
-                            milkPitcherTrigger.gameObject.SetActive(false);
-                            StartCoroutine(DelayedLeverDisable());
-                        }
-                    }
-                    else
-                    {
-                        StartCoroutine(DelayedLeverUp());
-                        UnacceptedItemFunctionality();
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        StartCoroutine(DelayedLeverUp());
-                        UnacceptedItemFunctionality();
-                    }
-                    catch
-                    {
-                        Debug.Log("No Objects in Trigger", this);
-                    }
-                }
+
+                CheckTriggerForMilkPitcher();
             }
         }
-        IEnumerator DelayedLeverDisable()
+
+        private void SpamCheck()
         {
-            yield return new WaitForSeconds(2f);
-            gameObject.SetActive(false);
+            isNotSpamming = false;
+            StartCoroutine(ResetIsNotSpammingCheck());
         }
 
-        IEnumerator ResetIsNotSpammingCheck()
+        private void CheckTriggerForMilkPitcher()
         {
-            yield return new WaitForSeconds(1f);
-            isNotSpamming = true;
+            if (milkPitcherTrigger.HasMilkPitcher())
+            {
+                milkPitcher = FindObjectOfType<MilkPitcher>();
+                SteamMilkBehavior();
+            }
+            else
+            {
+                StartCoroutine(DelayedLeverUp());
+            }
         }
 
-
-        IEnumerator DelayedLeverUp()
+        private void SteamMilkBehavior()
         {
-            yield return delayedLeverTimer;
-            StartCoroutine(PullLeverUP());
+            if (milkPitcher.currentState == milkPitcher.hasMilkState || milkPitcher.currentState == milkPitcher.steamingMilkState)
+            {
+                BeginSteamingMilk();
+            }
+            else
+            {
+                CantSteamMilkBehavior();
+            }
         }
 
+        private void BeginSteamingMilk()
+        {
+            if (isPulled)
+            {
+                SteamMilk();
+            }
+            else
+            {
+                FinishSteaming();
+
+                FindObjectOfType<MilkPitcher>().EnableClick();
+                milkPitcherTrigger.gameObject.SetActive(false);
+                
+                StartCoroutine(DelayedLeverDisable());
+            }
+        }
+           private void SteamMilk()
+        {
+            milkPitcher.BeginSteamingMilk();
+            milkParticles = Instantiate(milkSteamParticleEffect, spawnLocation.position, Quaternion.identity);
+        }
         private void FinishSteaming()
         {
             milkPitcher.FinishedSteamingMilk();
@@ -115,31 +113,18 @@ namespace CoffeeCoffee.EspressoMahchineButtons
             milkPitcherTrigger.ResetMilkPitcherTrigger();
         }
 
-        private void SteamMilk()
+        private void CantSteamMilkBehavior()
         {
-            milkPitcher.BeginSteamingMilk();
-            milkParticles = Instantiate(milkSteamParticleEffect, spawnLocation.position, Quaternion.identity);
+            StartCoroutine(DelayedLeverUp());
+            UnacceptedItemFunctionality();
         }
         private void UnacceptedItemFunctionality()
         {
-            Transform objectTransform = milkPitcherTrigger.GetDragAndDrop().gameObject.transform;
+            Transform objectTransform = FindObjectOfType<MilkPitcher>().transform;
             Vector2 originalPosition = objectTransform.position;
             StartCoroutine(WrongItemAnimation(objectTransform));
             ResetOriginalTransform(objectTransform, originalPosition);
             AllowForReplacableItems();
-        }
-        IEnumerator WrongItemAnimation(Transform t)
-        {
-            t.Translate(new Vector3(RIGHT, 0, 0));
-            yield return wrongItemWaitTimer;
-            t.Translate(new Vector3(LEFT, 0, 0));
-            t.Translate(new Vector3(LEFT, 0, 0));
-            yield return wrongItemWaitTimer;
-            t.Translate(new Vector3(RIGHT, 0, 0));
-            t.Translate(new Vector3(RIGHT, 0, 0));
-            yield return wrongItemWaitTimer;
-            t.Translate(new Vector3(LEFT, 0, 0));
-            t.Translate(new Vector3(LEFT, 0, 0));
         }
         private static void ResetOriginalTransform(Transform objectTransform, Vector2 originalPosition)
         {
@@ -148,7 +133,7 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         private void AllowForReplacableItems()
         {
             milkPitcherTrigger.gameObject.SetActive(false);
-            milkPitcherTrigger.GetDragAndDrop().EnableClick();
+            FindObjectOfType<MilkPitcher>().EnableClick();
             StartCoroutine(RestartPitcherTriggerTimer());
             milkPitcherTrigger.NoLongerOccupied();
             milkPitcherTrigger.ResetMilkPitcher();
@@ -193,6 +178,37 @@ namespace CoffeeCoffee.EspressoMahchineButtons
             yield return LeverTimer;
             animatedLever.transform.Rotate(new Vector3(0, 0, increaseBy));
             yield return LeverTimer;
+        }
+        IEnumerator DelayedLeverDisable()
+        {
+            yield return new WaitForSeconds(2f);
+            gameObject.SetActive(false);
+        }
+
+        IEnumerator ResetIsNotSpammingCheck()
+        {
+            yield return new WaitForSeconds(1f);
+            isNotSpamming = true;
+        }
+
+
+        IEnumerator DelayedLeverUp()
+        {
+            yield return delayedLeverTimer;
+            StartCoroutine(PullLeverUP());
+        }
+        IEnumerator WrongItemAnimation(Transform t)
+        {
+            t.Translate(new Vector3(RIGHT, 0, 0));
+            yield return wrongItemWaitTimer;
+            t.Translate(new Vector3(LEFT, 0, 0));
+            t.Translate(new Vector3(LEFT, 0, 0));
+            yield return wrongItemWaitTimer;
+            t.Translate(new Vector3(RIGHT, 0, 0));
+            t.Translate(new Vector3(RIGHT, 0, 0));
+            yield return wrongItemWaitTimer;
+            t.Translate(new Vector3(LEFT, 0, 0));
+            t.Translate(new Vector3(LEFT, 0, 0));
         }
     }
 }

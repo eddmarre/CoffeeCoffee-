@@ -6,7 +6,7 @@ using TMPro;
 public class CustomerOrderInfo : MonoBehaviour
 {
     TextMeshProUGUI tmp;
-    GameManager gameManager;
+    [SerializeField] CupOrderManagerScriptableObject cupOrderManager;
     private void Awake()
     {
         tmp = GetComponent<TextMeshProUGUI>();
@@ -14,10 +14,9 @@ public class CustomerOrderInfo : MonoBehaviour
 
     private void Start()
     {
-        gameManager = GameManager.Instance;
         try
         {
-            tmp.text = gameManager.playerInputedOrder.ToString();
+            tmp.text = cupOrderManager.playerInputedOrder.ToString();
         }
         catch
         {

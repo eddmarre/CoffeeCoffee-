@@ -176,6 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PersonBuildIndex: 0
   greeting: Hiya! I would like a
+  cupOrderManager: {fileID: 11400000, guid: dc1c0bc611d1e34458684f3ad6519dd0, type: 2}
 --- !u!95 &1142734029
 Animator:
   serializedVersion: 3

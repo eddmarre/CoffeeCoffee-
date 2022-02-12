@@ -10,13 +10,10 @@ namespace CoffeeCoffee.Triggers
     public class MilkPitcherTrigger : MonoBehaviour
     {
         const float TIMER = 1f;
-
-        DragAndDrop returnableDnd;
-        MilkPitcher returnableMLKPitcher;
         Triggerable triggerable;
         WaitForSeconds occupiedTimer;
 
-        bool isMilkPitcher;
+        bool hasMilkPitcher;
 
         private void Awake()
         {
@@ -26,32 +23,27 @@ namespace CoffeeCoffee.Triggers
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            StopAllCoroutines();
             if (triggerable.GetIsOccupied()) { return; }
             if (other.GetComponent<DragAndDrop>())
             {
-                SetDragAndDrop(other.GetComponent<DragAndDrop>());
                 StartCoroutine(SetOccupiedTimer());
             }
             if (other.gameObject.GetComponent<MilkPitcher>())
             {
-                SetMilkPitcher(other.GetComponent<MilkPitcher>());
-                isMilkPitcher = true;
+                hasMilkPitcher = true;
             }
         }
-        void SetDragAndDrop(DragAndDrop dnd)
+        private void OnTriggerExit(Collider other)
         {
-            returnableDnd = dnd;
+            if (other.gameObject.GetComponent<MilkPitcher>())
+            {
+                hasMilkPitcher = false;
+            }
         }
-
         IEnumerator SetOccupiedTimer()
         {
             yield return occupiedTimer;
             triggerable.SetIsOccupied(true);
-        }
-        void SetMilkPitcher(MilkPitcher mlkG)
-        {
-            returnableMLKPitcher = mlkG;
         }
 
         public void NoLongerOccupied()
@@ -61,27 +53,17 @@ namespace CoffeeCoffee.Triggers
 
         public void ResetMilkPitcherTrigger()
         {
-            isMilkPitcher = false;
+            hasMilkPitcher = false;
         }
 
-        public DragAndDrop GetDragAndDrop()
+        public bool HasMilkPitcher()
         {
-            if (null == returnableDnd) { Debug.Log("NullCollider", this); }
-            return returnableDnd;
-        }
-        public MilkPitcher GetMilkPitcher()
-        {
-            if (null == returnableMLKPitcher) { Debug.Log("NullCollider", this); }
-            return returnableMLKPitcher;
-        }
-        public bool IsMilkPitcher()
-        {
-            return isMilkPitcher;
+            return hasMilkPitcher;
         }
 
         public void ResetMilkPitcher()
         {
-            isMilkPitcher=false;
+            hasMilkPitcher = false;
         }
     }
 }

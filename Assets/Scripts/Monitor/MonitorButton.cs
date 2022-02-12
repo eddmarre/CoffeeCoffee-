@@ -8,7 +8,7 @@ namespace CoffeeCoffee.Monitor
     {
         public enum ButtonType { sizeButton, shotButton, espressoButton, beverageButton, temperatureButton, milkButton, syrupButton };
         public ButtonType buttonType;
-        public bool isPressed { get; set; }
+        public bool isPressed { get; private set; }
         Image image;
         Color originalColor;
         private void Awake()

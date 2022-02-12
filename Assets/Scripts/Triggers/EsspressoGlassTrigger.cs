@@ -33,19 +33,27 @@ namespace CoffeeCoffee.Triggers
         }
         private void OnTriggerEnter2D(Collider2D other)
         {
-            StopAllCoroutines();
+           // StopAllCoroutines();
             StartCoroutine(PullButtonDelay());
             if (triggerable.GetIsOccupied()) { return; }
             if (other.GetComponent<DragAndDrop>())
             {
-                SetDragAndDrop(other.GetComponent<DragAndDrop>());
-                other.GetComponent<DragAndDrop>().StopDragMovement();
+               // SetDragAndDrop(other.GetComponent<DragAndDrop>());
+                //other.GetComponent<DragAndDrop>().StopDragMovement();
                 StartCoroutine(SetOccupiedTimer());
             }
             if (other.gameObject.GetComponent<EsspressoGlass>())
             {
-                SetEsspressoGlass(other.GetComponent<EsspressoGlass>());
+                //SetEsspressoGlass(other.GetComponent<EsspressoGlass>());
                 isEsspressoGlass = true;
+            }
+        }
+
+        void OnTriggerExit2D(Collider2D other)
+        {
+            if(other.gameObject.GetComponent<EsspressoGlass>())
+            {
+                isEsspressoGlass=false;
             }
         }
         //Delay is necessary to allow time for enable/disable Collider2d
@@ -90,7 +98,7 @@ namespace CoffeeCoffee.Triggers
             return returnableESPGlass;
         }
 
-        public bool IsEsspressoGlass()
+        public bool HasEsspressoGlass()
         {
             return isEsspressoGlass;
         }

@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7598300efac4848ba3e4131090579d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cupOrderManager: {fileID: 11400000, guid: dc1c0bc611d1e34458684f3ad6519dd0, type: 2}
 --- !u!1 &1048307568932777485
 GameObject:
   m_ObjectHideFlags: 0

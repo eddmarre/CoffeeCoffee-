@@ -1,38 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using CoffeeCoffee.Dialogue;
-using CoffeeCoffee.Person;
-using CoffeeCoffee.SceneController;
-using CoffeeCoffee.Item;
-using CoffeeCoffee.Score;
-
-public class GameManager : MonoBehaviour
+using UnityEngine;
+using UnityEngine.Events;
+[CreateAssetMenu(fileName = "CupOrderManagerScriptableObject", menuName = "ScriptableObjects/Cup Order Manager")]
+public class CupOrderManagerScriptableObject : ScriptableObject
 {
-    private static GameManager _instance;
-
-    public static GameManager Instance { get { return _instance; } }
-
     public Order customerOrder;
     public Order playerInputedOrder;
     public Order FinalCupOrder;
 
-    private void Awake()
+    public UnityEvent<CupOrderManagerScriptableObject> customerOrderCreatedAction;
+    public UnityEvent<CupOrderManagerScriptableObject> playerInputedOrderCreatedAction;
+    public UnityEvent<CupOrderManagerScriptableObject> finalCupOrderCreatedAction;
+
+    private void OnEnable()
     {
-        CreateInstance();
+        if (customerOrderCreatedAction == null)
+        {
+            customerOrderCreatedAction = new UnityEvent<CupOrderManagerScriptableObject>();
+        }
+        if (playerInputedOrderCreatedAction == null)
+        {
+            playerInputedOrderCreatedAction = new UnityEvent<CupOrderManagerScriptableObject>();
+        }
+        if (finalCupOrderCreatedAction == null)
+        {
+            finalCupOrderCreatedAction = new UnityEvent<CupOrderManagerScriptableObject>();
+        }
     }
 
-    private void CreateInstance()
+    public void SetCustomerOrder()
     {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
+        customerOrderCreatedAction.Invoke(this);
+    }
+
+    public void SetPlayerInputedOrder()
+    {
+        playerInputedOrderCreatedAction.Invoke(this);
+    }
+    public void SetFinalCupOrder()
+    {
+        finalCupOrderCreatedAction.Invoke(this);
     }
 
     public float ReviewPlayerMonitorInput()
@@ -121,9 +131,10 @@ public class GameManager : MonoBehaviour
         return increasePrecentage;
     }
 
-    public Order GetFinalCupOrder()
+    public void ResetOrder()
     {
-        return FinalCupOrder;
+        customerOrder=null;
+        playerInputedOrder=null;
+        FinalCupOrder=null;
     }
 }
-

@@ -16,7 +16,7 @@ namespace CoffeeCoffee.Dialogue
             milks = new string[] { "two percent", "nonfat", "whole" };
             esspressos = new string[] { "regular esspresso", "blonde", "decaf" };
             beverages = new string[] { "latte", "machiato", "americano" };
-            temperatures = new string[] { "regular temp", "warm", "extra hot" };
+            temperatures = new string[] { "regular temperature", "warm", "extra hot" };
             shots = new string[] { "single", "double", "triple" };
         }
     }

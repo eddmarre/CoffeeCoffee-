@@ -4,37 +4,42 @@ using UnityEngine;
 using CoffeeCoffee.Item;
 using CoffeeCoffee.Dialogue;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace CoffeeCoffee.Syrup
 {
-
     public class Syrup : MonoBehaviour
     {
-        public enum SyrupFlavor { vanilla, caramel, hazelnut, classic, mocha };
-        public SyrupFlavor syrupFlavor;
-        public bool isUsed;
-        public GameObject syrupParticleEffect;
-        public Transform spawnLocation;
+        [SerializeField] enum SyrupFlavor { vanilla, caramel, hazelnut, classic, mocha };
+        [SerializeField] SyrupFlavor syrupFlavor;
+        [SerializeField] GameObject syrupParticleEffect;
+        [SerializeField] Transform spawnLocation;
+
+        public event Action<String> onSyrupPumpAction;
+        public bool isUsed { get; private set; }
 
         const float LEVEL_CHANGE_DELAY = 1f;
 
-
         new Collider2D collider2D;
-        OrderDictionary orderDictionary = new OrderDictionary();
-        Cup cup;
         WaitForSeconds changeLevelWaitTimer;
 
         string CupInputFlavor;
         private void Awake()
         {
             collider2D = GetComponent<Collider2D>();
+
             isUsed = false;
-            AssignFlavorTypeFromDictionary();
+
             changeLevelWaitTimer = new WaitForSeconds(LEVEL_CHANGE_DELAY);
         }
 
+        private void Start()
+        {
+            AssignFlavorTypeFromDictionary();
+        }
         private void AssignFlavorTypeFromDictionary()
         {
+            OrderDictionary orderDictionary = new OrderDictionary();
             if (syrupFlavor == SyrupFlavor.vanilla)
             {
                 CupInputFlavor = orderDictionary.flavors[0];
@@ -60,27 +65,26 @@ namespace CoffeeCoffee.Syrup
         private void OnMouseDown()
         {
             isUsed = true;
-            var syrupPour = Instantiate(syrupParticleEffect, spawnLocation.position, Quaternion.identity);
-            Destroy(syrupPour, 2f);
-            AddSyrupInCup();
-            ChangeToEsspressoMachineScene();
+            PourSyrup();
+
+            StartCoroutine(SceneChangeDelay());
         }
 
-        private void AddSyrupInCup()
+        private void PourSyrup()
         {
-            cup = FindObjectOfType<Cup>();
-            cup.CupOrder.flavor = CupInputFlavor;
-            cup.SetFinalCupOrder();
+            var syrupPour = Instantiate(syrupParticleEffect, spawnLocation.position, Quaternion.identity);
+            Destroy(syrupPour, 2f);
+            if (onSyrupPumpAction != null)
+            {
+                onSyrupPumpAction(CupInputFlavor);
+            }
         }
-        public void ChangeToEsspressoMachineScene()
-        {
-            int espMachine = 3;
-            StartCoroutine(SceneChangeDelay(espMachine));
-        }
-        IEnumerator SceneChangeDelay(int buildIndex)
+
+        IEnumerator SceneChangeDelay()
         {
             yield return changeLevelWaitTimer;
-            SceneManager.LoadScene(buildIndex);
+            var level = gameObject.AddComponent<CoffeeCoffee.SceneController.levelChanger>();
+            level.SetEsspressoMachineScene();
         }
 
         public void DisableSyrupCollider()

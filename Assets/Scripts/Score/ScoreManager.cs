@@ -7,9 +7,9 @@ namespace CoffeeCoffee.Score
 {
     public class ScoreManager : MonoBehaviour
     {
-        public ScoreTexts[] scoreTexts;
+        [SerializeField] CupOrderManagerScriptableObject cupOrderManager;
+        [SerializeField] ScoreTexts[] scoreTexts;
         int tip = 0, score = 1;
-        GameManager gameManager;
         private void Awake()
         {
             scoreTexts = GetComponentsInChildren<ScoreTexts>();
@@ -17,11 +17,10 @@ namespace CoffeeCoffee.Score
 
         private void Start()
         {
-            gameManager = GameManager.Instance;
             try
             {
-                SetTipText(gameManager.ReviewPlayerMonitorInput());
-                SetScoreText(gameManager.ReviewPlayerCup());
+                SetTipText(cupOrderManager.ReviewPlayerMonitorInput());
+                SetScoreText(cupOrderManager.ReviewPlayerCup());
             }
             catch
             {
@@ -74,7 +73,7 @@ namespace CoffeeCoffee.Score
                 tipAmount = "0." + randomTip.ToString();
                 scoreTexts[tip].SetText(tipAmount);
             }
-            else if (FinalCupStatus == 100f)
+            else
             {
                 randomTip = Random.Range(0, 101);
                 tipAmount = "1." + randomTip.ToString();
@@ -122,7 +121,7 @@ namespace CoffeeCoffee.Score
                 ScoreAmount = "86";
                 scoreTexts[score].SetText(ScoreAmount);
             }
-            else if (PlayerOrderStatus == 100f)
+            else
             {
                 ScoreAmount = "100";
                 scoreTexts[score].SetText(ScoreAmount);
