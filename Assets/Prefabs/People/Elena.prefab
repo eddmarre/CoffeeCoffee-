@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PersonBuildIndex: 1
-  greeting: FUCK U BITCH GIMMME A
+  greeting: Howdy! Lemme get uh.....
   cupOrderManager: {fileID: 11400000, guid: dc1c0bc611d1e34458684f3ad6519dd0, type: 2}
 --- !u!95 &3216669597771554759
 Animator:

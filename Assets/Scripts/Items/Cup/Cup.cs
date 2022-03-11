@@ -42,15 +42,6 @@ namespace CoffeeCoffee.Item
         }
         private void CreateCurrentCupOrder()
         {
-            /*if (gameManager.FinalCupOrder != null)
-            {
-                CupOrder = gameManager.FinalCupOrder.DeepCopy();
-            }
-            else
-            {
-                CupOrder = new Order();
-            }
-            */
             if (cupOrderManager.FinalCupOrder != null)
             {
                 CupOrder = cupOrderManager.FinalCupOrder.DeepCopy();
@@ -87,6 +78,7 @@ namespace CoffeeCoffee.Item
         private void Update()
         {
             currentState.UpdateState(this);
+            Debug.Log($"{CupOrder.ToString()}");
         }
         public void FillCupEsspresso(string esspresso, string shots)
         {
@@ -116,7 +108,6 @@ namespace CoffeeCoffee.Item
 
         public void SetFinalCupOrder()
         {
-            //gameManager.FinalCupOrder = CupOrder.DeepCopy();
             cupOrderManager.finalCupOrderCreatedAction.AddListener(SetFinalCupOrderAction);
             cupOrderManager.SetFinalCupOrder();
         }

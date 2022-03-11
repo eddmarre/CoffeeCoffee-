@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using CoffeeCoffee.Functionality;
 using UnityEngine;
-using CoffeeCoffee.Dialogue;
 
 namespace CoffeeCoffee.Item
 {
+
     [RequireComponent(typeof(DragAndDrop))]
     public class EsspressoGlass : MonoBehaviour
     {
@@ -15,16 +15,14 @@ namespace CoffeeCoffee.Item
         public EsspressoGlassBaseState pourEsspressoState = new EsspressoGlassPourEsspressoState();
         public EsspressoGlassBaseState finishedEsspressoState = new EsspressoGlassFinishedEsspressoState();
 
-        public enum Esspresso { none, blonde, regular, decaf };
-        public enum EsspressoSize { none, esingle, edouble };
-        public Esspresso esspresso { get; set; }
-        public EsspressoSize esspressoSize { get; set; }
+        public CreateEsspresso esspressoData;
+        public ICreateEsspresso createEsspresso;
+
+
         public new Rigidbody2D rigidbody2D;
         public Animator animator;
         [SerializeField] Sprite[] sprites;
 
-        string CupInputEsspresso;
-        string CupInputShots;
         SpriteRenderer spriteRenderer;
 
         bool isEmpty = true;
@@ -35,9 +33,12 @@ namespace CoffeeCoffee.Item
             spriteRenderer = GetComponent<SpriteRenderer>();
             rigidbody2D = GetComponent<Rigidbody2D>();
 
-            esspresso = Esspresso.none;
-            esspressoSize = EsspressoSize.none;
+            createEsspresso = GetComponent<ICreateEsspresso>();
+            esspressoData=GetComponent<CreateEsspresso>();
+
+            createEsspresso.initializeEsspresso();
         }
+
         private void Start()
         {
             currentState = emptyState;
@@ -63,38 +64,9 @@ namespace CoffeeCoffee.Item
             const string FILL_GLASS_TRIGGER = "FillGlass";
             animator.SetTrigger(FILL_GLASS_TRIGGER);
             isEmpty = false;
-            SetDictionaryEsspressoType();
-            SetDictionaryEsspressoShots();
+            createEsspresso.SetDictionaryEsspressoType();
+            createEsspresso.SetDictionaryEsspressoShots();
             setSprite();
-        }
-        private void SetDictionaryEsspressoShots()
-        {
-            OrderDictionary orderDictionary = new OrderDictionary();
-            if (esspressoSize == EsspressoSize.esingle)
-            {
-                CupInputShots = orderDictionary.shots[0];
-            }
-            else if (esspressoSize == EsspressoSize.edouble)
-            {
-                CupInputShots = orderDictionary.shots[1];
-            }
-        }
-
-        private void SetDictionaryEsspressoType()
-        {
-            OrderDictionary orderDictionary = new OrderDictionary();
-            if (esspresso == Esspresso.blonde)
-            {
-                CupInputEsspresso = orderDictionary.esspressos[1];
-            }
-            else if (esspresso == Esspresso.regular)
-            {
-                CupInputEsspresso = orderDictionary.esspressos[0];
-            }
-            else if (esspresso == Esspresso.decaf)
-            {
-                CupInputEsspresso = orderDictionary.esspressos[2];
-            }
         }
         private void setSprite()
         {
@@ -108,12 +80,12 @@ namespace CoffeeCoffee.Item
             }
         }
 
-        
+
         public void FillCup()
         {
             try
             {
-                FindObjectOfType<Cup>().FillCupEsspresso(CupInputEsspresso, CupInputShots);
+                FindObjectOfType<Cup>().FillCupEsspresso(createEsspresso.CupInputEsspresso, createEsspresso.CupInputShots);
             }
             catch
             {

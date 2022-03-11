@@ -47,9 +47,7 @@ namespace CoffeeCoffee.EspressoMahchineButtons
                     ChangeEsspressoSize();
                     ChangeEsspressoType();
                     PourEsspresso();
-                    FindObjectOfType<EsspressoGlass>().EnableClick();
-                    esspressoGlassTrigger.gameObject.SetActive(false);
-                    gameObject.SetActive(false);
+                    TurnOffButtonAndTrigger();
                 }
                 else
                 {
@@ -58,15 +56,16 @@ namespace CoffeeCoffee.EspressoMahchineButtons
             }
         }
 
+
         private void ChangeEsspressoSize()
         {
             if (shotSetting.GetIsDouble())
             {
-                esspressoGlass.esspressoSize = EsspressoGlass.EsspressoSize.edouble;
+                esspressoGlass.esspressoData.esspressoSize = CreateEsspresso.EsspressoSize.edouble;
             }
             else
             {
-                esspressoGlass.esspressoSize = EsspressoGlass.EsspressoSize.esingle;
+                esspressoGlass.esspressoData.esspressoSize = CreateEsspresso.EsspressoSize.esingle;
             }
         }
 
@@ -74,18 +73,24 @@ namespace CoffeeCoffee.EspressoMahchineButtons
         {
             if (decafButton.GetIsActive())
             {
-                esspressoGlass.esspresso = EsspressoGlass.Esspresso.decaf;
+                esspressoGlass.esspressoData.esspresso = CreateEsspresso.Esspresso.decaf;
             }
             else if (blondeButton.GetIsActive())
             {
-                esspressoGlass.esspresso = EsspressoGlass.Esspresso.blonde;
+                esspressoGlass.esspressoData.esspresso = CreateEsspresso.Esspresso.blonde;
             }
             else if (regularButton.GetIsActive())
             {
-                esspressoGlass.esspresso = EsspressoGlass.Esspresso.regular;
+                esspressoGlass.esspressoData.esspresso = CreateEsspresso.Esspresso.regular;
             }
         }
 
+        private void TurnOffButtonAndTrigger()
+        {
+            FindObjectOfType<EsspressoGlass>().EnableClick();
+            esspressoGlassTrigger.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
         private void UnacceptedItemFunctionality()
         {
             Transform objectTransform = FindObjectOfType<EsspressoGlass>().transform;
